@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+
+namespace NubankCli.Core.Entities
+{
+    [DebuggerDisplay("Start: {Start} End: {End} Count: {Transactions.Count}")]
+    public class Statement
+    {
+        public const string Version1_0 = "1.0.0";
+        public string Version { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public Card Card { get; set; }
+        public StatementType StatementType { get; set; }
+        public List<Transaction> Transactions { get; set; }
+
+        public string GetPath()
+        {
+            var dtStart = Start.ToString("yyyy-MM");
+            var dtEnd = End.ToString("yyyy-MM");
+            var fileName = dtStart;
+
+            if (dtStart != dtEnd)
+                fileName += $"_{dtEnd}";
+
+            return Path.Combine(Card.GetPath(), $"{fileName}.json");
+        }
+    }
+}

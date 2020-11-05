@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NubankCli.Cli", "src\NubankCli\NubankCli.csproj", "{5CDA2B7B-962B-4EA3-8138-C08F5D72471D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NubankCli.Core", "src\NubankCli.Core\NubankCli.Core.csproj", "{F5561E13-D477-4E6B-8EAE-7415E420F29E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5CDA2B7B-962B-4EA3-8138-C08F5D72471D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CDA2B7B-962B-4EA3-8138-C08F5D72471D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CDA2B7B-962B-4EA3-8138-C08F5D72471D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CDA2B7B-962B-4EA3-8138-C08F5D72471D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5561E13-D477-4E6B-8EAE-7415E420F29E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5561E13-D477-4E6B-8EAE-7415E420F29E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5561E13-D477-4E6B-8EAE-7415E420F29E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5561E13-D477-4E6B-8EAE-7415E420F29E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3C6162EE-9A6F-4DE1-B9F4-710F76FF2591}
+	EndGlobalSection
+EndGlobal
