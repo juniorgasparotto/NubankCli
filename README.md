@@ -29,7 +29,7 @@ Para iniciar é muito rápido e você pode fazer isso em qualquer terminal. Todo
     nu login [cpf] [senha]
     ```
 
-    * As informações do seu login ficarão salvas na pasta `UsersData/[cpf]`. Aqui temos o arquivo `user-info` que contém o seu token atual e os links descobertos da sua conta.
+    * As informações do seu login ficarão salvas na pasta `src/NubankCli/UsersData/[cpf]`. Aqui temos o arquivo `user-info` que contém o seu token atual e os links descobertos da sua conta.
 
     * Você permanecerá logado até que o token do NuBank expire, normalmente demora-se 7 dias.
 
@@ -49,29 +49,29 @@ Para iniciar é muito rápido e você pode fazer isso em qualquer terminal. Todo
     # Importa tudo sem nenhum filtro
     nu import-credit
 
-    # Importa com filtro da data de inicio apenas
+    # Importa com filtro de data de inicio apenas
     nu import-credit --start 2020-01-01
 
-    # Importa com filtro da data de fim apenas
+    # Importa com filtro de data fim apenas
     nu import-credit --end 2020-02-01
 
-    # Importa com filtro da data de inicio e fim
+    # Importa com filtro de data de inicio e fim
     nu import-credit --start 2020-01-01 --end 2020-02-01
     ```
 
-8. Para importar as transações do cartão de débito (nucona) use:
+8. Para importar as transações do cartão de débito (nuconta) use:
 
     ```bash
     # Importa tudo sem nenhum filtro
     nu import-debit
 
-    # Importa com filtro da data de inicio apenas
+    # Importa com filtro de data de inicio apenas
     nu import-debit --start 2020-01-01
 
-    # Importa com filtro da data de fim apenas
+    # Importa com filtro de data fim apenas
     nu import-debit --end 2020-02-01
 
-    # Importa com filtro da data de inicio e fim
+    # Importa com filtro de data de inicio e fim
     nu import-debit --start 2020-01-01 --end 2020-02-01
     ```
 
@@ -88,7 +88,7 @@ Para iniciar é muito rápido e você pode fazer isso em qualquer terminal. Todo
     nu get statement creditcard -h
     ```
 
-    * Os dados importados de cartão de crédito ficaram dentro da sua pasta de usuário nas sub-pastas: `UsersData/[cpf]/card-credit`
+    * Os dados importados de cartão de crédito ficaram dentro da sua pasta de usuário nas sub-pastas: `src/NubankCli/UsersData/[cpf]/card-credit`
 
 10. Para visualizar os extratos do seu cartão de débito que foram importados, utilize o comando:
 
@@ -96,7 +96,7 @@ Para iniciar é muito rápido e você pode fazer isso em qualquer terminal. Todo
     nu get statement nuconta
     ```
 
-    * Os dados importados de cartão de débito ficaram dentro da sua pasta de usuário nas sub-pastas: `UsersData/[cpf]/nuconta`.
+    * Os dados importados de cartão de débito ficaram dentro da sua pasta de usuário nas sub-pastas: `src/NubankCli/UsersData/[cpf]/nuconta`.
 
 11. Para visualizar os extratos consolidados do cartão de débito e débito (nuconta), utilize o comando:
 
@@ -139,7 +139,7 @@ Para iniciar é muito rápido e você pode fazer isso em qualquer terminal. Todo
     nu whoami
     ```
 
-14. Para deslogar utilize o comando abaixo ou apague o arquivo `user-info.json`:
+14. Para deslogar utilize o comando abaixo ou apague o arquivo `src/NubankCli/UsersData/[cpf]/user-info.json`:
 
     ```bash
     nu logout
@@ -149,57 +149,58 @@ Para iniciar é muito rápido e você pode fazer isso em qualquer terminal. Todo
 
 Para importar os dados de cartão de crédito de forma mensal:
 
-    ```bash
-    nu import-credit --statement-type ByBill 
-    ```
+```bash
+nu import-credit --statement-type ByBill 
+```
 
 Obtém apenas os extratos no qual contém alguma entrada:
 
-    ```bash
-    nu get stat --where 'Transactions.Where(t => t.Value > 0).Sum(t => t.Value) > 0'
-    ```
+```bash
+nu get stat --where 'Transactions.Where(t => t.Value > 0).Sum(t => t.Value) > 0'
+```
+
 Ordena os extratos por valor de entrada do maior para o menor:
 
-    ```bash
-    nu get stat --sort 'Transactions.Where(t => t.Value > 0).Sum(t => t.Value) DESC'
-    ```
+```bash
+nu get stat --sort 'Transactions.Where(t => t.Value > 0).Sum(t => t.Value) DESC'
+```
 
 Comandos avançados para filtragem das transações importadas:
 
-    ```bash
-    # Obtem as transações com filtro (forma curta -w): Apenas transações de entrada de valor (recebimentos)
-	nu get trans -w "Value > 0"
-	
-	# Obtem as transações com filtro (forma longa --where): Apenas transações de saída de valor (pagamentos)
-	nu get trans --where "Value < 0"
-	
-	# Obtem as transações ordenas por data (forma curta -s): Menor para o maior (mais antigas primeiro)
-	nu get trans -s "EventDate ASC"
-	
-	# Obtem as transações ordenas por data (forma longa --sort): Maior para o menor (mais recentes primeiro)
-	nu get trans --sort "EventDate DESC"
-	
-	# Obtem as maiores transações de saída
-	nu get trans -w "Value < 0" --sort "Value ASC"
-	
-	# Obtem as maiores transações de entrada
-	nu get trans -w "Value > 0" --sort "Value DESC"
-	
-	# Filtra pelo nome do cartão (nesse caso não obtem nada da NuConta)
-	nu get trans -w 'CardName="credit-card"'
-	
-	# Obtem as transações de um extrato especifico (Start é a data de abertura da fatura - OpenDate)
-	nu get trans -w 'Statement.Start == "2020-05-17" && !IsBillPayment' -s "PostDate DESC, EventDate DESC"
-	
-	# Obtem com uma quantidade mair de itens por página
-	nu get trans -S 100
-	
-	# Obtem sem paginação
-	nu get trans -S 0
-	
-	# Obtem em formato de JSON sem paginação removendo o cabeçalho e rodapé
-	nu get trans -o json -S 0 -v none
-    ```
+```bash
+# Obtem as transações com filtro (forma curta -w): Apenas transações de entrada de valor (recebimentos)
+nu get trans -w "Value > 0"
+
+# Obtem as transações com filtro (forma longa --where): Apenas transações de saída de valor (pagamentos)
+nu get trans --where "Value < 0"
+
+# Obtem as transações ordenas por data (forma curta -s): Menor para o maior (mais antigas primeiro)
+nu get trans -s "EventDate ASC"
+
+# Obtem as transações ordenas por data (forma longa --sort): Maior para o menor (mais recentes primeiro)
+nu get trans --sort "EventDate DESC"
+
+# Obtem as maiores transações de saída
+nu get trans -w "Value < 0" --sort "Value ASC"
+
+# Obtem as maiores transações de entrada
+nu get trans -w "Value > 0" --sort "Value DESC"
+
+# Filtra pelo nome do cartão (nesse caso não obtem nada da NuConta)
+nu get trans -w 'CardName="credit-card"'
+
+# Obtem as transações de um extrato especifico (Start é a data de abertura da fatura - OpenDate)
+nu get trans -w 'Statement.Start == "2020-05-17" && !IsBillPayment' -s "PostDate DESC, EventDate DESC"
+
+# Obtem com uma quantidade mair de itens por página
+nu get trans -S 100
+
+# Obtem sem paginação
+nu get trans -S 0
+
+# Obtem em formato de JSON sem paginação removendo o cabeçalho e rodapé
+nu get trans -o json -S 0 -v none
+```
 
 # Contribuíndo
 
