@@ -63,7 +63,7 @@ namespace NubankCli.Cli
 
             if (result.NeedsDeviceAuthorization)
             {
-                //if (!repository.RestClient.EnableMockServer)
+                if (!repository.RestClient.EnableMockServer)
                 {
                     App.Console.Warning("You must authenticate with your phone to be able to access your data.");
                     App.Console.Warning("Scan the QRCode below with you Nubank application on the following menu:");
