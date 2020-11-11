@@ -7,6 +7,7 @@ using System.IO;
 using System.Reflection;
 using NubankCli.Extensions.DI;
 using NubankCli.Extensions.Configurations;
+using NubankCli.Core.Extensions;
 
 namespace NubankCli
 {
@@ -15,7 +16,7 @@ namespace NubankCli
         public static int Main()
         {
             //CultureInfo.CurrentCulture = CultureInfo.CreateSpecificCulture("nl-NL");
-            var CONFIG_FOLDER = new FileInfo(Assembly.GetEntryAssembly().Location).Directory.FullName;
+            var CONFIG_FOLDER = EnvironmentExtensions.ProjectRootOrExecutionDirectory;
 
             return App.RunApplication(() =>
             {

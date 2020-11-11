@@ -50,7 +50,7 @@ namespace NubankCli.Core.Entities
 
         public string GetPath()
         {
-            return Path.Combine(EnvironmentExtensions.DebugOrExecutionDirectory, "UsersData", UserName);
+            return Path.Combine(EnvironmentExtensions.ProjectRootOrExecutionDirectory, "UsersData", UserName);
         }
 
         public UserInfo GetUserInfo()

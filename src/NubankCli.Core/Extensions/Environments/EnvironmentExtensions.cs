@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Reflection;
 
@@ -31,6 +32,18 @@ namespace NubankCli.Core.Extensions
                     return GetProjectDirectory();
 
                 return ExecutionDirectory;
+            }
+        }
+
+        public static string ProjectRootOrExecutionDirectory
+        {
+            get
+            {
+                var projectRoot = GetProjectDirectory();
+                if (projectRoot == null)
+                    return ExecutionDirectory;
+
+                return projectRoot;
             }
         }
 
