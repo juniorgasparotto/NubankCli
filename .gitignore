@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 
 **/UsersData
+src/NubankCli/settings.json

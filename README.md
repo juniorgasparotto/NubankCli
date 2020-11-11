@@ -6,6 +6,10 @@ NubankCli é um aplicativo de console que importa as transações do cartão de 
 
 Para iniciar é muito rápido e você pode fazer isso em qualquer terminal. Todo o material é focado no bash, caso queria usar outro terminal será necessário adaptação.
 
+Um ponto importante é que a execução dessa CLI foi feita para rodar ao lado do código fonte, como acontece com outras linguagens como Python, Node e PHP. Isso ajuda em evoluções e correções de bugs, um `.exe` compilado seria uma caixa preta e não é o meu proposito. 
+
+Vale destacar que caso queira faze-lo nada deverá te impedir, basta executar o comando `dotnet publish -c Release` e obter o compilado.
+
 1. Caso não tenha o `dotnet core` instalado, faça-o pelo link: https://dotnet.microsoft.com/download
 2. Faça o clone do projeto no seu local preferido e defina o comando simplificador `nu`:
 
@@ -15,6 +19,9 @@ Para iniciar é muito rápido e você pode fazer isso em qualquer terminal. Todo
 
     # Entra na pasta
     cd NubankCli
+
+    # Faça o build do código para evitar que a compilação seja feita no primeiro uso
+    dotnet build "src/NubankCli/NubankCli.csproj"
 
     # Define um alias para o arquivo ./nu no qual contém um simplificador da execução do .net
     alias nu=./nu
@@ -207,7 +214,8 @@ nu get trans -o json -S 0 -v none
 Para contribuir basta ter instalado o `Visual Studio Code` ou o próprio `Visual Studio Community` e fazer as adaptações que ache necessárias. Vale dizer que o projeto é bem simples e não contém diversos recursos como:
 
 * Geração de boleto
-* Login com certificado
+* Conta de investimento
+* Login com certificado* 
 * Refresh Token
 
 Fique a vontade para fazer essas evoluções ;)
