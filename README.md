@@ -90,9 +90,6 @@ Vale destacar que caso queira faze-lo nada deverá te impedir, basta executar o 
 
     # Visualiza todos os extratos importados de forma mensal (forma longa)
     nu get statement creditcard --by-month
-
-    # Visualiza todos os extratos importados de forma mensal (forma curta)
-    nu get statement creditcard -h
     ```
 
     * Os dados importados de cartão de crédito ficaram dentro da sua pasta de usuário nas sub-pastas: `src/NubankCli/UsersData/[cpf]/card-credit`
@@ -157,13 +154,13 @@ Vale destacar que caso queira faze-lo nada deverá te impedir, basta executar o 
 Para importar os dados de cartão de crédito de forma mensal:
 
 ```bash
-nu import-credit --statement-type ByBill 
+nu import-credit --statement-type ByMonth
 ```
 
-Obtém apenas os extratos no qual contém alguma entrada:
+Obtém apenas os extratos no qual contém alguma entrada SEM considerar pagamentos de boletos:
 
 ```bash
-nu get stat --where 'Transactions.Where(t => t.Value > 0).Sum(t => t.Value) > 0'
+nu get stat --where 'Transactions.Where(t => t.Value > 0 && !t.IsBillPayment).Sum(t => t.Value) > 0'
 ```
 
 Ordena os extratos por valor de entrada do maior para o menor:
@@ -206,7 +203,7 @@ nu get trans -S 100
 nu get trans -S 0
 
 # Obtem em formato de JSON sem paginação removendo o cabeçalho e rodapé
-nu get trans -o json -S 0 -v none
+nu get trans -o json -S 0 --verbose none
 ```
 
 # Contribuíndo
