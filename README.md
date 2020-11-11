@@ -102,7 +102,7 @@ Vale destacar que caso queira faze-lo nada deverá te impedir, basta executar o 
 
     * Os dados importados de cartão de débito ficaram dentro da sua pasta de usuário nas sub-pastas: `src/NubankCli/UsersData/[cpf]/nuconta`.
 
-11. Para visualizar os extratos consolidados do cartão de débito e débito (nuconta), utilize o comando:
+11. Para visualizar os extratos consolidados do cartão de crédito e débito (nuconta), utilize o comando:
 
     ```bash
     # Exibe extratos do cartão de crédito e débito
