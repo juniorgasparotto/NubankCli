@@ -212,7 +212,7 @@ Para contribuir basta ter instalado o `Visual Studio Code` ou o próprio `Visual
 
 * Geração de boleto
 * Conta de investimento
-* Login com certificado* 
+* Login com certificado
 * Refresh Token
 
 Fique a vontade para fazer essas evoluções ;)
