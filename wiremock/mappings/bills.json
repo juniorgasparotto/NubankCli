@@ -1,0 +1,25 @@
+{
+    "id": "3d8499fc-b498-314f-9cd6-c0ac720ee425",
+    "request": {
+        "url": "/api/proxy/bills_summary",
+        "method": "GET"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "bills.json",
+        "headers": {
+            "content-security-policy": "object-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:;",
+            "Content-Type": "application/json;charset=utf-8",
+            "Strict-Transport-Security": "max-age=31536000; includeSubdomains",
+            "Vary": "Accept-Encoding, User-Agent",
+            "X-Content-Type-Options": "nosniff",
+            "X-Download-Options": "noopen",
+            "x-frame-options": "DENY",
+            "x-http2-stream-id": "7",
+            "X-Permitted-Cross-Domain-Policies": "none",
+            "x-xss-protection": "1; mode=block",
+            "Connection": "keep-alive"
+        }
+    },
+    "uuid": "3d8499fc-b498-314f-9cd6-c0ac720ee425"
+}

@@ -1,0 +1,27 @@
+{
+    "id": "4f8ac28f-7838-39e6-8d10-1b006c700edf",
+    "request": {
+        "url": "/api/proxy/lift",
+        "method": "POST"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "LoginAccessTokenTwoFactory.json.json",
+        "headers": {
+            "Cache-Control": "no-store",
+            "content-security-policy": "object-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:;",
+            "Content-Type": "application/json;charset=utf-8",
+            "Pragma": "no-cache",
+            "Strict-Transport-Security": "max-age=31536000; includeSubdomains",
+            "X-Content-Type-Options": "nosniff",
+            "X-Download-Options": "noopen",
+            "x-frame-options": "DENY",
+            "x-http2-stream-id": "16123",
+            "X-Permitted-Cross-Domain-Policies": "none",
+            "x-signature": "ANNsWToAAALrLB9t2Gw2KbAA0rk8C-QDrv6Mw3OFfASo5wE2Lu1Mtas9EGSglI3GBMhNtkLNi0X9_xTz93HJ2TTYTb0Vt0oD5Yk2qt8P3e8M-gYYDjpBoDHvbDOxgbUcgH-0MBNsyUspd0Ojqc-U6EEke43upAU_LcVmB8RG2c5R5-Mwr9vZulOqLQU3",
+            "x-xss-protection": "1; mode=block",
+            "Connection": "keep-alive"
+        }
+    },
+    "uuid": "4f8ac28f-7838-39e6-8d10-1b006c700edf"
+}

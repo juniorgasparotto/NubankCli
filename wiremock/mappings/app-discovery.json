@@ -1,0 +1,29 @@
+{
+    "id": "04cc3736-6123-3e3a-8269-9df24355697e",
+    "request": {
+        "url": "/api/app/discovery",
+        "method": "GET",
+        "headers": {
+            "Accept": {
+                "equalTo": "application/json, text/json, text/x-json, text/javascript, application/xml, text/xml"
+            }
+        }
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "app-discovery.json",
+        "headers": {
+            "Content-Security-Policy": "object-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:;",
+            "Content-Type": "application/json;charset=utf-8",
+            "Strict-Transport-Security": "max-age=31536000; includeSubdomains",
+            "Vary": "Accept-Encoding, User-Agent",
+            "X-Content-Type-Options": "nosniff",
+            "X-Download-Options": "noopen",
+            "X-Frame-Options": "DENY",
+            "X-Permitted-Cross-Domain-Policies": "none",
+            "X-XSS-Protection": "1; mode=block",
+            "Connection": "keep-alive"
+        }
+    },
+    "uuid": "04cc3736-6123-3e3a-8269-9df24355697e"
+}

@@ -1,0 +1,25 @@
+{
+    "id": "2cf63a7f-de43-3acf-83b2-e2aa0b08d57a",
+    "request": {
+        "url": "/api/proxy/nuconta",
+        "method": "POST"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "nuconta.json",
+        "headers": {
+            "content-security-policy": "object-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:;",
+            "Content-Type": "application/json;charset=utf-8",
+            "Strict-Transport-Security": "max-age=31536000; includeSubdomains",
+            "X-Content-Type-Options": "nosniff",
+            "X-Download-Options": "noopen",
+            "x-frame-options": "DENY",
+            "x-http2-stream-id": "3",
+            "X-Permitted-Cross-Domain-Policies": "none",
+            "x-xss-protection": "1; mode=block",
+            "transfer-encoding": "chunked",
+            "Connection": "keep-alive"
+        }
+    },
+    "uuid": "2cf63a7f-de43-3acf-83b2-e2aa0b08d57a"
+}

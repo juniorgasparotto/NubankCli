@@ -20,7 +20,7 @@ Para iniciar é muito rápido e você pode fazer isso em qualquer terminal. Todo
     alias nu=./nu
 
     # Ou defina de maneira global e permanente
-    currentdir=`pwd`; cd; echo alias nu="$currentdir/nu" >> .bashrc; source .bashrc;
+    echo alias nu="`pwd`/nu" >> ~/.bashrc; source ~/.bashrc;
     ```
 
 3. Faça o login na CLI usando suas credencias do aplicativo NuBank
@@ -204,7 +204,7 @@ nu get trans -o json -S 0 -v none
 
 # Contribuíndo
 
-Para contribuir basta baixar o Visual Studio Code ou o próprio Visual Studio Community e fazer as adaptações que ache necessário. Vale dizer que o projeto é bem simples e não contém diversos recursos como:
+Para contribuir basta ter instalado o `Visual Studio Code` ou o próprio `Visual Studio Community` e fazer as adaptações que ache necessárias. Vale dizer que o projeto é bem simples e não contém diversos recursos como:
 
 * Geração de boleto
 * Login com certificado
@@ -227,8 +227,8 @@ Os passos para executar usando o wiremock são:
     
     * OBS: Estou considerando que todos os artefatos estejam na `C:`, troque para o caminho onde você baixou o `Wiremock` e o `NubankCli`.
 
-3. Abra o arquivo C:\NubankCli\src\NubankCli\settings.json e altere a propriedade: `enableMockServer: true`
-4. Por padrão, a porta `6511` já está configurada nesse arquivo na propriedade `mockUrl`, caso queira altera-la, mude-a e execute o wiremock a outra porta também.
+3. Abra o arquivo `C:\NubankCli\src\NubankCli\settings.json` e altere a propriedade: `enableMockServer: true`
+4. Por padrão, a porta `6511` já está configurada nesse arquivo na propriedade `mockUrl`, caso queira altera-la, mude o arquivo de configurações e execute o wiremock novamente na porta correta.
 
 ## Wiremock UI
 

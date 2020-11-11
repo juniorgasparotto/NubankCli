@@ -1,0 +1,65 @@
+{
+    "bills": [
+        {
+            "state": "open",
+            "summary": {
+                "due_date": "2019-03-24",
+                "close_date": "2019-03-17",
+                "late_interest_rate": "0.15",
+                "past_balance": 0,
+                "late_fee": "0.02",
+                "effective_due_date": "2019-03-24",
+                "total_balance": 100,
+                "interest_rate": "0.14",
+                "interest": 0,
+                "total_cumulative": 100,
+                "paid": 0,
+                "minimum_payment": 0,
+                "open_date": "2019-02-17"
+            },
+            "_links": {
+                "self": {
+                    "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/2019-02-17_2019-03-17"
+                },
+                "barcode": {
+                    "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/barcode"
+                },
+                "boleto_email": {
+                    "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/boleto_email"
+                }
+            }
+        },
+        {
+            "id": "f6d9bf8d-b1df-4aaa-bbe5-97fa0eb41e24",
+            "state": "overdue",
+            "summary": {
+                "remaining_balance": 0,
+                "due_date": "2019-02-24",
+                "close_date": "2019-02-17",
+                "past_balance": 0,
+                "effective_due_date": "2019-02-24",
+                "total_balance": 200,
+                "interest_rate": "0.14",
+                "interest": 0,
+                "total_cumulative": 200,
+                "paid": 0,
+                "minimum_payment": 200,
+                "remaining_minimum_payment": 0,
+                "open_date": "2019-01-17"
+            },
+            "_links": {
+                "self": {
+                    "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/2019-01-17_2019-02-17"
+                }
+            }
+        }
+    ],
+    "_links": {
+        "open": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/open"
+        },
+        "future": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/future"
+        }
+    }
+}

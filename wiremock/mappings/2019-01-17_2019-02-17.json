@@ -1,0 +1,26 @@
+{
+    "id": "065a8117-540c-388f-bb1f-21e815c3e073",
+    "request": {
+        "url": "/api/proxy/2019-01-17_2019-02-17",
+        "method": "GET"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "2019-01-17_2019-02-17.json",
+        "headers": {
+            "content-security-policy": "object-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:;",
+            "Content-Type": "application/json;charset=utf-8",
+            "Strict-Transport-Security": "max-age=31536000; includeSubdomains",
+            "Vary": "Accept-Encoding, User-Agent",
+            "X-Content-Type-Options": "nosniff",
+            "X-Download-Options": "noopen",
+            "x-frame-options": "DENY",
+            "x-http2-stream-id": "49",
+            "X-Permitted-Cross-Domain-Policies": "none",
+            "x-xss-protection": "1; mode=block",
+            "transfer-encoding": "chunked",
+            "Connection": "keep-alive"
+        }
+    },
+    "uuid": "065a8117-540c-388f-bb1f-21e815c3e073"
+}

@@ -1,0 +1,17 @@
+{
+    "register_prospect_savings_web": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/register_prospect_savings_web",
+    "register_prospect_savings_mgm": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/register_prospect_savings_mgm",
+    "pusher_auth_channel": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/pusher_auth_channel",
+    "register_prospect_debit": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/register_prospect_debit",
+    "reset_password": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/reset_password",
+    "register_prospect": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/register_prospect",
+    "register_prospect_savings_request_money": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/register_prospect_savings_request_money",
+    "register_prospect_global_web": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/register_prospect_global_web",
+    "register_prospect_c": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/register_prospect_c",
+    "request_password_reset": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/request_password_reset",
+    "auth_gen_certificates": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/auth_gen_certificates",
+    "login": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/login",
+    "email_verify": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/email_verify",
+    "auth_device_resend_code": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/auth_device_resend_code",
+    "msat": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/msat"
+}

@@ -12,12 +12,14 @@ namespace NubankCli.Core.Repositories
     public class RestSharpClient
     {
         private readonly RestClient _client = new RestClient();
+        private readonly AppSettings _appSettings;
 
         public bool EnableMockServer { get; }
 
         public RestSharpClient(IOptions<AppSettings> appSettings)
         {
-            this.EnableMockServer = appSettings.Value.EnableMockServer;
+            this._appSettings = appSettings.Value;
+            this.EnableMockServer = this._appSettings.EnableMockServer;
             _client.ThrowOnAnyError = true;
             _client.FailOnDeserializationError = true;
             _client.ThrowOnDeserializationError = true;
@@ -90,8 +92,10 @@ namespace NubankCli.Core.Repositories
         {
             if (this.EnableMockServer)
             {
-                url = url.Replace("https://prod-s0-webapp-proxy.nubank.com.br", "http://localhost:6511");
-                url = url.Replace("https://prod-global-webapp-proxy.nubank.com.br", "http://localhost:6511");
+                // TODO: uma forma melhor seria usar URI para fazer a subustituição do host
+                url = url.Replace(this._appSettings.NubankUrl, this._appSettings.MockUrl);
+                url = url.Replace("https://prod-s0-webapp-proxy.nubank.com.br", this._appSettings.MockUrl);
+                url = url.Replace("https://prod-global-webapp-proxy.nubank.com.br", this._appSettings.MockUrl);
             }
 
             return url;

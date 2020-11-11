@@ -1,0 +1,132 @@
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.4Adcj3UFYzPUVaVF43FmMab6RlaQD8A9V8wFzzht-KQ",
+    "token_type": "bearer",
+    "_links": {
+        "rewards_customer_enrollment": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/rewards_customer_enrollment"
+        },
+        "rosetta_images": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/rosetta_images"
+        },
+        "change_password": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/change_password"
+        },
+        "enabled_features": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/enabled_features"
+        },
+        "insurance_bff": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/insurance_bff"
+        },
+        "certificate_status": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/certificate_status"
+        },
+        "telefonista": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/telefonista"
+        },
+        "rosetta_localization": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/rosetta_localization"
+        },
+        "credit_card_widget": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/credit_card_widget"
+        },
+        "revoke_token": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/revoke_token"
+        },
+        "userinfo": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/userinfo"
+        },
+        "events_page": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/events_page"
+        },
+        "loginWebapp": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/loginWebapp"
+        },
+        "dropman": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/dropman"
+        },
+        "token_validate": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/token_validate"
+        },
+        "events": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/events"
+        },
+        "register_rewards": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/register_rewards"
+        },
+        "login_webapp": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/login_webapp"
+        },
+        "postcode": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/postcode"
+        },
+        "app_flows": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/app_flows"
+        },
+        "magnitude": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/magnitude"
+        },
+        "facade": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/facade"
+        },
+        "rewards_signup_widget": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/rewards_signup_widget"
+        },
+        "revoke_all": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/revoke_all"
+        },
+        "customer": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/customer"
+        },
+        "account": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/account"
+        },
+        "bills_summary": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/bills_summary"
+        },
+        "start_auto_trust": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/start_auto_trust"
+        },
+        "features_map": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/features_map"
+        },
+        "healthcheck": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/healthcheck"
+        },
+        "savings_account": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/savings_account"
+        },
+        "selfie_authorization": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/selfie_authorization"
+        },
+        "rewards_enrollment": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/rewards_enrollment"
+        },
+        "purchases": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/purchases"
+        },
+        "blackmirror": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/blackmirror"
+        },
+        "ghostflame": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/nuconta"
+        },
+        "revelio": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/revelio"
+        },
+        "canuto": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/canuto"
+        },
+        "shore": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/shore"
+        },
+        "user_change_password": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/user_change_password"
+        },
+        "rosetta_localizations_by_locale": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/rosetta_localizations_by_locale"
+        },
+        "tolkien_registry": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/tolkien_registry"
+        }
+    }
+}

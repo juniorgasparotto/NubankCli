@@ -1,0 +1,49 @@
+{
+    "events": [
+        {
+            "description": "Transaction2",
+            "category": "transaction",
+            "amount": 10000,
+            "time": "2019-01-01T00:02:47Z",
+            "title": "outros",
+            "details": {
+                "lat": -22.6951272,
+                "lon": -46.9846185,
+                "subcategory": "card_not_present"
+            },
+            "id": "36559092-d2ea-4522-b298-c0503576ed1a",
+            "_links": {
+                "self": {
+                    "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/transaction2"
+                }
+            },
+            "href": "nuapp://transaction/transaction2"
+        },
+        {
+            "description": "Transaction1",
+            "category": "transaction",
+            "amount": 10000,
+            "time": "2019-01-02T11:59:43Z",
+            "title": "supermercado",
+            "details": {
+                "lat": -22.8115606,
+                "lon": -47.0350431,
+                "subcategory": "card_present"
+            },
+            "id": "865dc486-52f1-44ca-8efe-0f8c4f4f92b7",
+            "_links": {
+                "self": {
+                    "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/transaction1"
+                }
+            },
+            "href": "nuapp://transaction/transaction1"
+        }
+    ],
+    "customer_id": "1901214c-be0a-4ec1-816c-9f3b18a2be7e",
+    "as_of": "2019-01-01T20:43:43.708Z",
+    "_links": {
+        "updates": {
+            "href": ""
+        }
+    }
+}

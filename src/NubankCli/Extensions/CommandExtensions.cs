@@ -73,7 +73,7 @@ namespace NubankCli.Extensions
 
             if (check<UnauthorizedException>(exception, out var unauthorizedException))
             {
-                command.App.Console.Error("Voc� n�o est� logado");
+                command.App.Console.Error("Você não está logado");
             }
             else
             {
@@ -98,99 +98,6 @@ namespace NubankCli.Extensions
                 return false;
             }
         }
-
-        //public static void ShowApiException(this Command command, MoreThanOneIdException exception)
-        //{
-        //    command.App.Console.Warning(string.Format(MessagesPtBr.MORE_THEN_ONE_ID_OR_NAME, exception.SearchText));
-        //    // foreach (var i in exception.Ids)
-        //    //     command.App.Console.Warning(i);
-        //}
-
-        //public static void ShowApiException(this Command command, Exception exception)
-        //{
-        //    while (exception is AggregateException)
-        //        exception = exception.InnerException;
-
-        //    if (check<MoreThanOneIdException>(exception, out var moreThanOneIdException))
-        //    {
-        //        ShowApiException(command, moreThanOneIdException);
-        //    }
-        //    else if (check<ValidationApiException>(exception, out var validationApiException))
-        //    {
-        //        command.App.Console.Error(validationApiException.Content?.Detail);
-        //    }
-        //    else if (check<ApiException>(exception, out var apiException))
-        //    {
-        //        try
-        //        {
-        //            var error = apiException.GetContentAsAsync<ProblemDetailsResponse>().Result;
-
-        //            if (apiException.StatusCode == HttpStatusCode.Unauthorized)
-        //            {
-        //                command.App.Console.Warning("N�o autorizado, fa�a o login usando o comando abaixo:");
-        //                command.App.Console.WriteLn();
-        //                command.App.Console.Success("  login -u [username] -p [password]");
-        //                command.App.Console.WriteLn();
-        //                command.App.Console.Warning("Ou fa�a um novo cadastro:");
-        //                command.App.Console.WriteLn();
-        //                command.App.Console.Success("  add user");
-        //                return;
-        //            }
-
-        //            command.App.Console.Error(apiException.ReasonPhrase);
-
-        //            if (error?.Errors != null)
-        //            {
-        //                foreach (var e in error?.Errors)
-        //                {
-        //                    foreach (var fieldErro in e.Value)
-        //                    {
-        //                        var space = string.IsNullOrWhiteSpace(fieldErro.Message) ? null : " / ";
-        //                        command.App.Console.Error($"{e.Key}: {fieldErro.Type}{space}{fieldErro.Message}");
-        //                    }
-        //                }
-        //            }
-        //            else
-        //            {
-        //                if (
-        //                    apiException.StatusCode != HttpStatusCode.Forbidden &&
-        //                    apiException.StatusCode != HttpStatusCode.Unauthorized
-        //                )
-        //                {
-        //                    command.App.Console.Error(error.Detail);
-        //                }
-        //            }
-        //        }
-        //        catch (Exception)
-        //        {
-        //            command.App.Console.Error(exception.Message);
-        //            command.App.Console.Error(exception.StackTrace);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        command.App.Console.Error(exception.Message);
-        //        command.App.Console.Error(exception.StackTrace);
-        //    }
-
-        //    bool check<TVerify>(Exception eIn, out TVerify eOut) where TVerify : Exception
-        //    {
-        //        eOut = default(TVerify);
-        //        if (eIn is TVerify)
-        //        {
-        //            eOut = (TVerify)eIn;
-        //            return true;
-        //        }
-        //        else if (eIn.InnerException is TVerify)
-        //        {
-        //            eOut = (TVerify)eIn.InnerException;
-        //            return true;
-        //        }
-
-        //        return false;
-        //    }
-        //}
-
         public static void ViewPagination<T>(this Command command, int page, Func<int, PagedResult<T>> callback, bool autoPage, string output = null, bool showCountResume = true)
         {
             var next = true;

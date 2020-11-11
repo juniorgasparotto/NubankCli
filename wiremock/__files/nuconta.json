@@ -1,0 +1,72 @@
+{
+    "data": {
+        "viewer": {
+            "savingsAccount": {
+                "id": "1c122d31-1557-4d0d-a784-590d6b4a34e8",
+                "feed": [
+                    {
+                        "id": "7bf639c5-5a7b-4bde-9cbd-3a313b66ae64",
+                        "__typename": "BillPaymentEvent",
+                        "title": "Pagamento da fatura",
+                        "detail": "Cartão Nubank - R$ 3.203,70",
+                        "postDate": "2019-02-07",
+                        "amount": null
+                    },
+                    {
+                        "id": "e0189407-d8e7-488e-af12-771dedc99e3d",
+                        "__typename": "BarcodePaymentFailureEvent",
+                        "title": "Pagamento devolvido",
+                        "detail": "TRIBUTOS",
+                        "postDate": "2019-02-06",
+                        "amount": 1488.09
+                    },
+                    {
+                        "id": "8fd344a4-bc68-4bfd-a408-80f620999538",
+                        "__typename": "BarcodePaymentEvent",
+                        "title": "Pagamento efetuado",
+                        "detail": "TRIBUTOS",
+                        "postDate": "2019-02-05",
+                        "amount": 1488.09
+                    },
+                    {
+                        "id": "a129b334-fa8b-43dd-bafd-6b06b22acafe",
+                        "__typename": "TransferOutEvent",
+                        "title": "Transferência enviada",
+                        "detail": "Junior - R$ 2.500,00",
+                        "postDate": "2019-02-04",
+                        "amount": 2500.0,
+                        "destinationAccount": {
+                            "name": "Junior"
+                        }
+                    },
+                    {
+                        "id": "14a8b3ac-2b27-4c66-8f89-7dbda6ec5787",
+                        "__typename": "DebitPurchaseEvent",
+                        "title": "Compra no débito",
+                        "detail": "Snook Bar",
+                        "postDate": "2019-02-03",
+                        "amount": 18.0
+                    },
+                    {
+                        "id": "df36e6db-a609-4a8b-89c3-2ed32adb895e",
+                        "__typename": "TransferInEvent",
+                        "title": "Transferência recebida",
+                        "detail": "R$ 33,00",
+                        "postDate": "2019-02-02",
+                        "amount": 33.0,
+                        "originAccount": {
+                            "name": "Pedro"
+                        }
+                    },
+                    {
+                        "id": "f502898a-7977-47c3-9e85-d46bafe25fd8",
+                        "__typename": "WelcomeEvent",
+                        "title": "Bem vindo à sua conta!",
+                        "detail": "Marcio \nBanco 260 - Nu Pagamentos S.A.\nAgência 0001\nConta 0001111-1",
+                        "postDate": "2019-02-01"
+                    }
+                ]
+            }
+        }
+    }
+}

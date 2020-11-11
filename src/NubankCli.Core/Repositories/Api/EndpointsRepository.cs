@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Options;
+using NubankCli.Core.Configuration;
 
 namespace NubankCli.Core.Repositories.Api
 {
     public class EndpointsRepository
     {
-        private const string DiscoveryUrl = "https://prod-s0-webapp-proxy.nubank.com.br/api/discovery";
-        private const string DiscoveryAppUrl = "https://prod-s0-webapp-proxy.nubank.com.br/api/app/discovery";
-
+        private readonly AppSettings _appSettings;
+        private readonly string DiscoveryUrl;
+        private readonly string DiscoveryAppUrl;
         private readonly RestSharpClient _client;
         private Dictionary<string, string> _topLevelUrls;
         private Dictionary<string, string> _appUrls;
@@ -20,10 +22,13 @@ namespace NubankCli.Core.Repositories.Api
         public string GraphQl => GetAutenticatedUrl("ghostflame");
         public Dictionary<string, string> AutenticatedUrls { get; set; }
 
-        public EndpointsRepository(RestSharpClient httpClient)
+        public EndpointsRepository(RestSharpClient httpClient, IOptions<AppSettings> appSettings)
         {
+            _appSettings = appSettings.Value;
             _client = httpClient;
             AutenticatedUrls = new Dictionary<string, string>();
+            DiscoveryUrl = $"{_appSettings.NubankUrl}/api/discovery";
+            DiscoveryAppUrl = $"{_appSettings.NubankUrl}/api/app/discovery";
         }
 
         public string GetTopLevelUrl(string key)

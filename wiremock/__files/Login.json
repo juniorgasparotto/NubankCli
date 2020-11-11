@@ -1,0 +1,20 @@
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.4Adcj3UFYzPUVaVF43FmMab6RlaQD8A9V8wFzzht-KQ",
+    "token_type": "bearer",
+    "_links": {
+        "revoke_token": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/revoke_token"
+        },
+        "revoke_all": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/revoke_all"
+        },
+        "account_emergency": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/account_emergency"
+        },
+        "bill_emergency": {
+            "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/bill_emergency"
+        }
+    },
+    "refresh_token": "string token",
+    "refresh_before": "2020-11-05T02:39:35Z"
+}

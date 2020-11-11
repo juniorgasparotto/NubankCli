@@ -24,6 +24,9 @@ namespace NubankCli.Core.Entities
 
             public DateTime GetExpiredDate()
             {
+                if (Token == null)
+                    return DateTime.MinValue;
+                    
                 var jobject = JwtDecoder.GetClaims(Token);
                 var exp = jobject["exp"].Value<int>();
                 DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(exp);

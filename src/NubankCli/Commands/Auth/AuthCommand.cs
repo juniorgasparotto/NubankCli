@@ -63,17 +63,17 @@ namespace NubankCli.Cli
 
             if (result.NeedsDeviceAuthorization)
             {
-                if (!repository.RestClient.EnableMockServer)
+                //if (!repository.RestClient.EnableMockServer)
                 {
-                    App.Console.Warning("You must authenticate with your phone to be able to access your data.");
-                    App.Console.Warning("Scan the QRCode below with you Nubank application on the following menu:");
-                    App.Console.Warning("Nu(Seu Nome) > Perfil > Acesso pelo site");
+                    App.Console.Warning("Você deve se autenticar com seu telefone para poder acessar seus dados.");
+                    App.Console.Warning("Digitalize o QRCode abaixo com seu aplicativo Nubank no seguinte menu:");
+                    App.Console.Warning("Ícone de configurações > Perfil > Acesso pelo site");
                     
                     App.Console.Write(" ");
                     App.Console.Write(result.GetQrCodeAsAscii());
                     
                     App.Console.Write(" ");
-                    App.Console.Warning($"Use your phone to scan and after this press any key to continue...");
+                    App.Console.Warning($"Use seu telefone para escanear e depois disso pressione a telcar 'enter' para continuar ...");
 
                     App.Console.Read();
                 }

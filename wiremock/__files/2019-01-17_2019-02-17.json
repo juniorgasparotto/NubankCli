@@ -1,0 +1,57 @@
+{
+    "bill": {
+        "id": "5c8dca9d-0106-4bcb-a0a4-1e1353b8348b",
+        "state": "overdue",
+        "summary": {
+            "remaining_balance": 0,
+            "due_date": "2019-02-24",
+            "close_date": "2019-02-17",
+            "past_balance": 0,
+            "effective_due_date": "2019-02-24",
+            "total_balance": 200,
+            "interest_rate": "0.14",
+            "interest": 0,
+            "total_cumulative": 200,
+            "paid": 0,
+            "minimum_payment": 200,
+            "remaining_minimum_payment": 0,
+            "open_date": "2019-01-17"
+        },
+        "_links": {
+            "boleto_email": {
+                "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/boleto_email"
+            },
+            "barcode": {
+                "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/barcode"
+            },
+            "invoice_email": {
+                "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/invoice_email"
+            },
+            "self": {
+                "href": "https://prod-global-webapp-proxy.nubank.com.br/api/proxy/self"
+            }
+        },
+        "line_items": [
+            {
+                "amount": 100,
+                "index": 0,
+                "title": "Transaction1",
+                "post_date": "2019-02-01",
+                "id": "cb8515d6-85dd-4cb9-95bf-4defd3f84e69",
+                "href": "nuapp://transaction/transaction1",
+                "category": "transporte",
+                "charges": 5
+            },
+            {
+                "amount": 100,
+                "index": 0,
+                "title": "Transaction2",
+                "post_date": "2019-02-02",
+                "id": "6c1aff9f-03be-4356-a40e-97ae39a18f9b",
+                "href": "nuapp://transaction/transaction2",
+                "category": "outros",
+                "charges": 12
+            }
+        ]
+    }
+}
