@@ -86,10 +86,13 @@ Vale destacar que caso queira faze-lo nada deverá te impedir, basta executar o 
 
     ```bash
     # Visualiza todos os extratos importados de acordo com as datas de abertura e fechamento cada boleto
+    # Pode usar nas 3 formas: Simplificada, Singular e Plural
+    nu get stat creditcard
     nu get statement creditcard
+    nu get statements creditcard
 
     # Visualiza todos os extratos importados de forma mensal (forma longa)
-    nu get statement creditcard --by-month
+    nu get stat creditcard --by-month
     ```
 
     * Os dados importados de cartão de crédito ficaram dentro da sua pasta de usuário nas sub-pastas: `src/NubankCli/UsersData/[cpf]/card-credit`
@@ -97,22 +100,27 @@ Vale destacar que caso queira faze-lo nada deverá te impedir, basta executar o 
 10. Para visualizar os extratos do seu cartão de débito que foram importados, utilize o comando:
 
     ```bash
+    # Pode usar nas 3 formas: Simplificada, Singular e Plural
+    nu get stat nuconta
     nu get statement nuconta
+    nu get statements nuconta
     ```
 
     * Os dados importados de cartão de débito ficaram dentro da sua pasta de usuário nas sub-pastas: `src/NubankCli/UsersData/[cpf]/nuconta`.
 
-11. Para visualizar os extratos consolidados do cartão de débito e débito (nuconta), utilize o comando:
+11. Para visualizar os extratos consolidados do cartão de crédito e débito (nuconta), utilize o comando:
 
     ```bash
-    # Exibe extratos do cartão de crédito e débito
+    # Exibe extratos do cartão de crédito e débito (Pode usar nas 3 formas: Simplificada, Singular e Plural)
+    nu get stat
     nu get statement
+    nu get statements
 
     # Exibe extratos consolidando ambos os cartões de forma mensal (forma longa)
-    nu get statement --merge
+    nu get stat --merge
 
     # Exibe extratos consolidando ambos os cartões de forma mensal (forma curta)
-    nu get statement -m 
+    nu get stat -m 
     ```
 
 12. Para visualizar todas as transações importadas, utilize o comando:
@@ -212,7 +220,7 @@ Para contribuir basta ter instalado o `Visual Studio Code` ou o próprio `Visual
 
 * Geração de boleto
 * Conta de investimento
-* Login com certificado* 
+* Login com certificado
 * Refresh Token
 
 Fique a vontade para fazer essas evoluções ;)
