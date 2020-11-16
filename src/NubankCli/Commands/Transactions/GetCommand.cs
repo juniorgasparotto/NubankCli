@@ -35,7 +35,7 @@
                 App.Console.Success($" ");
                 App.Console.Success($"TOTAL (ENTRADA): " + $"{summary.ValueIn.Format()} ({summary.CountIn})");
                 App.Console.Success($"TOTAL (SAÍDA)  : " + $"{summary.ValueOut.Format()} ({summary.CountOut})");
-                App.Console.Success($"TOTAL          : " + $"{summary.ValueTotal.Format()} ({summary.ValueTotal})");
+                App.Console.Success($"TOTAL          : " + $"{summary.ValueTotal.Format()} ({summary.CountTotal})");
                 App.Console.Success($" ");
 
                 if (page <= 0 || pageSize <= 0)
