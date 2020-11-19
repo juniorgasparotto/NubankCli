@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Humanizer;
@@ -137,6 +138,11 @@ namespace NubankCli.Core.Extensions.Formatters
                 strBuilder.AppendLine($"{strSpaces}{line}");
 
             return strBuilder.ToString();
+        }
+
+        public static string JoinIfNotNull(string separator, params string[] values)
+        {
+            return string.Join(separator, values.Where(f => f != null));
         }
     }
 }

@@ -82,7 +82,7 @@ namespace NubankCli.Core.Repositories
         private T GetResponseOrException<T>(IRestResponse<T> response, string verb, string url) where T : new()
         {
             var statusCode = (int)response.StatusCode;
-            if (statusCode > 299)
+            if (statusCode == 0 || statusCode > 299)
                 throw response.ErrorException ?? new Exception($"{verb} {url} - ({statusCode}) {response.ErrorMessage ?? response.StatusDescription}");
 
             return response.Data;

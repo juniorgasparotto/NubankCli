@@ -45,6 +45,7 @@ namespace NubankCli.Core.Services
                 TransactionType.BillPaymentEvent,
                 TransactionType.DebitWithdrawalFeeEvent,
                 TransactionType.DebitWithdrawalEvent,
+                TransactionType.GenericFeedEvent,                
             };
 
             var selecteds = Savings
@@ -55,7 +56,14 @@ namespace NubankCli.Core.Services
             var savings = new List<Saving>();
             foreach (var s in selecteds)
             {
-                if (s.TypeName == TransactionType.BillPaymentEvent)
+                var valueInDetails = new List<TransactionType>()
+                {
+                    TransactionType.BillPaymentEvent,
+                    TransactionType.TransferOutReversalEvent,
+                    TransactionType.GenericFeedEvent
+                };
+
+                if (valueInDetails.Contains(s.TypeName))
                 {
                     // Modelo: "Cartão Nubank - R$ 1.987,06",
                     // 1) Divide na primeira ocorrencia de "-"

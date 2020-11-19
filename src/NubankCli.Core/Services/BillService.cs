@@ -84,13 +84,14 @@ namespace NubankCli.Core.Services
             var start = (startFilter ?? Bills.Min(f => f.Summary.OpenDate)).Date.GetDateBeginningOfMonth();
             var end = (endFilter ?? Bills.Max(f => f.Summary.CloseDate)).Date.GetDateBeginningOfMonth();
 
+            // f.Links?.Self?.Href != null:  As vezes não vem com link, isso ocorre muitas vezes em faturas futuras
             var selecteds = Bills
-                .Where(f => f.Summary.OpenDate.GetDateBeginningOfMonth() >= start && f.Summary.OpenDate.GetDateBeginningOfMonth() <= end)
+                .Where(f => f.Links?.Self?.Href != null && f.Summary.OpenDate.GetDateBeginningOfMonth() >= start && f.Summary.OpenDate.GetDateBeginningOfMonth() <= end)
                 .OrderBy(f => f.Summary.OpenDate)
                 .ToList();
 
             foreach (var b in selecteds)
-            {
+            {                
                 var response = client.GetBill(b.Links.Self.Href);
                 if (response != null)
                     b.LineItems = response.LineItems;
@@ -107,6 +108,9 @@ namespace NubankCli.Core.Services
 
         public void PopulateEvents(IEnumerable<BillTransaction> billTransactions, IEnumerable<Event> events)
         {
+            if (billTransactions == null || events == null)
+                return;
+
             // Obtem as informações do evento de cada compra
             // Pagamentos recebidos e Compras do Rewards não tem links, então não existe referencia dentro do eventos
             // Compras com mais de uma parcela vão compartilhar o mesmo evento uma vez que o nubank só mantem o evento da primeira compra

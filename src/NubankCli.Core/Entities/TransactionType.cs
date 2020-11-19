@@ -21,6 +21,6 @@
         DebitWithdrawalFeeEvent,
         DebitWithdrawalEvent,
         CreditEvent,
-
+        GenericFeedEvent,
     }
 }

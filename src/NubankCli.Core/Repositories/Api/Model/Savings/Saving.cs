@@ -3,6 +3,8 @@ using NubankCli.Core.Entities;
 using NubankCli.Core.Extensions;
 using System;
 using System.Diagnostics;
+using System.Linq;
+using static NubankCli.Core.Extensions.Formatters.FormatStringExtensions;
 
 namespace NubankCli.Core.Repositories.Api
 {
@@ -24,7 +26,12 @@ namespace NubankCli.Core.Repositories.Api
 
         public decimal GetValueFromDetails()
         {
-            return DecimalExtensions.ParseFromPtBr(Detail.Split('-')[1].Trim()).Value;
+            return DecimalExtensions.ParseFromPtBr(Detail.Split(new char[] { '-', '\n' })[1].Trim()).Value;
+        }
+
+        public string[] SplitDetails()
+        {
+            return Detail.Split(new char[] { '-', '\n' });
         }
 
         public decimal GetValueWithSignal()
@@ -38,45 +45,55 @@ namespace NubankCli.Core.Repositories.Api
                 TransactionType.DebitPurchaseEvent => (Amount ?? 0) * -1,
                 TransactionType.DebitPurchaseReversalEvent => Amount.Value,
                 TransactionType.BillPaymentEvent => (Amount ?? 0) * -1,
-                TransactionType.CanceledScheduledTransferOutEvent => throw new NotImplementedException(),
-                TransactionType.AddToReserveEvent => throw new NotImplementedException(),
-                TransactionType.CanceledScheduledBarcodePaymentRequestEvent => throw new NotImplementedException(),
-                TransactionType.RemoveFromReserveEvent => throw new NotImplementedException(),
-                TransactionType.TransferOutReversalEvent => throw new NotImplementedException(),
-                TransactionType.SalaryPortabilityRequestEvent => throw new NotImplementedException(),
-                TransactionType.SalaryPortabilityRequestApprovalEvent => throw new NotImplementedException(),
-                TransactionType.DebitWithdrawalFeeEvent => throw new NotImplementedException(),
-                TransactionType.DebitWithdrawalEvent => throw new NotImplementedException(),
+                TransactionType.CanceledScheduledTransferOutEvent => ThrowNotImplementedException<decimal>(),
+                TransactionType.AddToReserveEvent => ThrowNotImplementedException<decimal>(),
+                TransactionType.CanceledScheduledBarcodePaymentRequestEvent => ThrowNotImplementedException<decimal>(),
+                TransactionType.RemoveFromReserveEvent => ThrowNotImplementedException<decimal>(),
+                TransactionType.TransferOutReversalEvent => (Amount ?? 0) * -1,
+                TransactionType.SalaryPortabilityRequestEvent => ThrowNotImplementedException<decimal>(),
+                TransactionType.SalaryPortabilityRequestApprovalEvent => ThrowNotImplementedException<decimal>(),
+                TransactionType.DebitWithdrawalFeeEvent => ThrowNotImplementedException<decimal>(),
+                TransactionType.DebitWithdrawalEvent => ThrowNotImplementedException<decimal>(),
+                TransactionType.GenericFeedEvent => (Amount ?? 0) * -1,
                 TransactionType.Unknown => 0,
                 TransactionType.WelcomeEvent => 0,
-                _ => throw new NotImplementedException()
+                _ => ThrowNotImplementedException<decimal>(),
             };
         }
 
         public string GetCompleteTitle()
         {
+            var detailsFirstValue = SplitDetails().FirstOrDefault().Trim();
+            var separator = " - ";
+
             return TypeName switch
             {
-                TransactionType.TransferInEvent => $"{Title} - {OriginAccount.Name}",
-                TransactionType.TransferOutEvent => $"{Title} - {DestinationAccount.Name}",
+                TransactionType.TransferInEvent => JoinIfNotNull(separator, Title, OriginAccount?.Name),
+                TransactionType.TransferOutEvent => JoinIfNotNull(separator, Title, DestinationAccount?.Name),
                 TransactionType.BarcodePaymentEvent => $"{Detail}",
-                TransactionType.BarcodePaymentFailureEvent => $"{Title} - {Detail}",
-                TransactionType.DebitPurchaseEvent => $"{Detail}",
-                TransactionType.DebitPurchaseReversalEvent => $"{Title} - {Detail}",
-                TransactionType.BillPaymentEvent => $"{Title} - Cartão Nubank",
-                TransactionType.CanceledScheduledTransferOutEvent => throw new NotImplementedException(),
-                TransactionType.AddToReserveEvent => throw new NotImplementedException(),
-                TransactionType.CanceledScheduledBarcodePaymentRequestEvent => throw new NotImplementedException(),
-                TransactionType.RemoveFromReserveEvent => throw new NotImplementedException(),
-                TransactionType.TransferOutReversalEvent => throw new NotImplementedException(),
-                TransactionType.SalaryPortabilityRequestEvent => throw new NotImplementedException(),
-                TransactionType.SalaryPortabilityRequestApprovalEvent => throw new NotImplementedException(),
-                TransactionType.DebitWithdrawalFeeEvent => throw new NotImplementedException(),
-                TransactionType.DebitWithdrawalEvent => throw new NotImplementedException(),
+                TransactionType.BarcodePaymentFailureEvent => JoinIfNotNull(separator, Title, Detail),
+                TransactionType.DebitPurchaseEvent => $"{detailsFirstValue}",
+                TransactionType.DebitPurchaseReversalEvent => JoinIfNotNull(separator, Title, Detail),
+                TransactionType.BillPaymentEvent => JoinIfNotNull(separator, Title, "Cartão Nubank"),
+                TransactionType.CanceledScheduledTransferOutEvent => ThrowNotImplementedException<string>(),
+                TransactionType.AddToReserveEvent => ThrowNotImplementedException<string>(),
+                TransactionType.CanceledScheduledBarcodePaymentRequestEvent => ThrowNotImplementedException<string>(),
+                TransactionType.RemoveFromReserveEvent => ThrowNotImplementedException<string>(),
+                TransactionType.TransferOutReversalEvent => JoinIfNotNull(separator, Title, detailsFirstValue),
+                TransactionType.SalaryPortabilityRequestEvent => ThrowNotImplementedException<string>(),
+                TransactionType.SalaryPortabilityRequestApprovalEvent => ThrowNotImplementedException<string>(),
+                TransactionType.DebitWithdrawalFeeEvent => ThrowNotImplementedException<string>(),
+                TransactionType.DebitWithdrawalEvent => ThrowNotImplementedException<string>(),
+                TransactionType.GenericFeedEvent => JoinIfNotNull(separator, Title, detailsFirstValue),
                 TransactionType.Unknown => null,
                 TransactionType.WelcomeEvent => null,
-                _ => throw new NotImplementedException()
+                _ => ThrowNotImplementedException<string>(),
             };
+        }
+
+        private T ThrowNotImplementedException<T>()
+        {
+            throw new NotImplementedException($"Não foi encontrado um mapeamento para o tipo '{TypeName}' que foi encontrado na transação '{Title} ({Detail})'");
         }
     }
 
@@ -84,4 +101,6 @@ namespace NubankCli.Core.Repositories.Api
     {
         public string Name { get; set; }
     }
+
+
 }
