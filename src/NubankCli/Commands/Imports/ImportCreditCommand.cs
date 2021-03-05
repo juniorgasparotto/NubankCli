@@ -15,7 +15,6 @@ namespace NubankCli.Cli
     {
         public void ImportCredit(DateTime? start = null, DateTime? end = null, StatementType statementType = StatementType.ByBill)
         {
-
             try
             {
                 var user = this.GetCurrentUser();

@@ -73,6 +73,14 @@ namespace NubankCli.Core.Extensions
 
         public static void CorrelateTransactions(this IEnumerable<Transaction> transactions)
         {
+            // Esse código precisa ser melhorado
+            // 1) Primeiro, considere os débitos como sendo sempre a origin da relação (conta de crédit0)
+            // 2) Considere os créditos como sendo sempre o destino origin da relação (conta do nuconta)
+            // 3) Origin e destino devem ter o mesmo valor, mas com o sinal invertido
+            // 4) Origin e destino não podem ser do mesmo cartão (um nuconta e outro crédito)
+            // 5) As origins precisam ter sempre a data menor ou igual ao destino
+            // 6) A diferença de data deve ser de no máximo 5 dias. Considere que o pagamento seja feita numa sexta e existe feriado prolongado
+            //    no qual a efetivação do pagamento da fatura seja só na terça feira (talvez não exista esse cenário no nubank)
             var groupCorrelation = transactions.GroupBy(f => new { f.PostDate, ValueAbs = Math.Abs(f.Value) }).Where(f => f.Count() == 2);
             foreach (var g in groupCorrelation)
             {

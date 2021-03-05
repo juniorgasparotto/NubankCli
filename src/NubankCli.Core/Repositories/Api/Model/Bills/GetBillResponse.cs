@@ -33,7 +33,20 @@ namespace NubankCli.Core.Repositories.Api
 
         [JsonProperty("post_date")]
         public DateTime PostDate { get; set; }
-        public DateTime EventDate => TimeZoneInfo.ConvertTimeFromUtc(EventDateUtc, Constants.BR_TIME_ZONE);
+        public DateTime EventDate
+        {
+            get
+            {
+                // Quando tem evento, a data vem no formato UTC e precisa converter pra pt-br
+                if (Event != null)
+                    return TimeZoneInfo.ConvertTimeFromUtc(EventDateUtc, Constants.BR_TIME_ZONE);
+
+                // Quando NÃO tem evento é usado entao o PostDate QUE NÃO ESTÁ EM UTC, por isso não pode converter,
+                // do contrário a data do evento seria um dia antes da compra
+                return EventDateUtc;
+            }
+        }
+        
         public DateTime EventDateUtc
         {
             get
