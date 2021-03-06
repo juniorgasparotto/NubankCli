@@ -69,6 +69,6 @@ namespace NubankCli.Core.Repositories.Api
         public string Href { get; set; }
 
         public Event Event { get; set; }
-
+        public bool IsBillPaymentLastBill { get; set; }
     }
 }

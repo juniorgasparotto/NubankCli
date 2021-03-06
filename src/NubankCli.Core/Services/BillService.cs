@@ -1,4 +1,5 @@
-﻿using NubankCli.Core.Extensions;
+﻿using NubankCli.Core.Entities;
+using NubankCli.Core.Extensions;
 using NubankCli.Core.Repositories.Api;
 using System;
 using System.Collections.Generic;
@@ -111,14 +112,23 @@ namespace NubankCli.Core.Services
             if (billTransactions == null || events == null)
                 return;
 
+            // Adiciona uma nova flag para boletos que tem adiantamento de fatura
+            // Onde o item mais antigo de "Pagamento recebido" será considerado o pagamento da fatura anterior
+            // As demais serão consideradas adiantamentos
+            var billPaymentLastBill = billTransactions.Where(f => Transaction.IsByllPayment(f.Title, null)).OrderBy(f => f.EventDate).FirstOrDefault();
+            if (billPaymentLastBill != null)
+                billPaymentLastBill.IsBillPaymentLastBill = true;
+
             // Obtem as informações do evento de cada compra
             // Pagamentos recebidos e Compras do Rewards não tem links, então não existe referencia dentro do eventos
             // Compras com mais de uma parcela vão compartilhar o mesmo evento uma vez que o nubank só mantem o evento da primeira compra
             // mas é bom as outras parcelas terem a referencia do mesmo evento para ter acesso a latitude e longitude, mas devem tomar 
             // cuidado para não usar a mesma data, pois apenas a primeira compra reflete a data real.
             foreach (var t in billTransactions)
+            {
                 if (t.Href != null)
                     t.Event = events.First(f => f.Href == t.Href);
+            }
         }
     }
 }

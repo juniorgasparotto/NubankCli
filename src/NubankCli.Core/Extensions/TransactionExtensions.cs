@@ -15,10 +15,10 @@ namespace NubankCli.Core.Extensions
             return statements.SelectMany(f => f.Transactions);
         }
 
-        public static List<Statement> ExcludeBillPayment(this List<Statement> statements)
+        public static List<Statement> ExcludeBillPaymentLastBill(this List<Statement> statements)
         {
             foreach (var s in statements)
-                s.Transactions = s.Transactions.ExcludeBillPayment().ToList();
+                s.Transactions = s.Transactions.ExcludeBillPaymentLastBill().ToList();
 
             return statements;
         }
@@ -66,9 +66,9 @@ namespace NubankCli.Core.Extensions
             return transactions.Where(f => f.Value < 0);
         }
 
-        public static IEnumerable<Transaction> ExcludeBillPayment(this IEnumerable<Transaction> transactions)
+        public static IEnumerable<Transaction> ExcludeBillPaymentLastBill(this IEnumerable<Transaction> transactions)
         {
-            return transactions.Where(f => !f.IsBillPayment);
+            return transactions.Where(f => !f.IsBillPaymentLastBill);
         }
 
         public static void CorrelateTransactions(this IEnumerable<Transaction> transactions)

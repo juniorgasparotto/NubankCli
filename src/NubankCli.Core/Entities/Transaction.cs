@@ -22,8 +22,12 @@ namespace NubankCli.Core.Entities
         public decimal Longitude { get; set; }
         public string Type { get; set; }
 
+        // Propriedade da pagamento da fatura anterior
+        public bool IsBillPaymentLastBill { get; set; }
+
+        // Propriedade da pagamento da fatura anterior ou adiantamentos
         [JsonIgnore]
-        public bool IsBillPayment => Name == "Pagamento recebido" || Type == "BillPaymentEvent";
+        public bool IsBillPayment => IsByllPayment(Name, Type);
 
         [JsonIgnore]
         public string CardName { get; set; }
@@ -31,7 +35,7 @@ namespace NubankCli.Core.Entities
         [JsonIgnore]
         public Statement Statement { get; set; }
         [JsonIgnore]
-        
+
         public Guid Target { get; internal set; }
         [JsonIgnore]
         public Guid Origin { get; internal set; }
@@ -41,14 +45,14 @@ namespace NubankCli.Core.Entities
         public Transaction()
         {
         }
-        
+
         public Transaction(BillTransaction billTransaction)
         {
             Id = billTransaction.Id;
             Href = billTransaction.Event?.Links?.Self?.Href ?? billTransaction.Href;
             Category = billTransaction.Category;
             Count = billTransaction.Charges == 1 ? 0 : billTransaction.Charges;
-            Number = billTransaction.Charges > 1 ? billTransaction.Index + 1: 0;
+            Number = billTransaction.Charges > 1 ? billTransaction.Index + 1 : 0;
             Name = billTransaction.Title;
             PostDate = billTransaction.PostDate;
             EventDate = billTransaction.EventDate;
@@ -56,6 +60,7 @@ namespace NubankCli.Core.Entities
             Latitude = billTransaction.Event?.Details?.Lat ?? 0;
             Longitude = billTransaction.Event?.Details?.Lon ?? 0;
             Value = (billTransaction.Amount / 100m) * -1;
+            IsBillPaymentLastBill = billTransaction.IsBillPaymentLastBill;
             Type = Enum.GetName(typeof(TransactionType), TransactionType.CreditEvent);
         }
 
@@ -82,6 +87,11 @@ namespace NubankCli.Core.Entities
                 return $"{Name} {Number}/{Count}";
 
             return Name;
+        }
+
+        public static bool IsByllPayment(string name, string type)
+        {
+            return name == "Pagamento recebido" || type == "BillPaymentEvent";
         }
     }
 }

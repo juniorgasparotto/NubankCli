@@ -44,7 +44,7 @@ namespace NubankCli.Cli
                 foreach (var e in statements)
                     jsonManager.Save(e, e.GetPath());
 
-                statements = statements.ExcludeBillPayment();
+                statements = statements.ExcludeBillPaymentLastBill();
 
                 var allTransactions = statements.GetTransactions();
                 var allSummary = allTransactions.Summary();

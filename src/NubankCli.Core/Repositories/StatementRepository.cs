@@ -55,7 +55,7 @@ namespace NubankCli.Core.Repositories
             list.GetTransactions().CorrelateTransactions();
 
             if (excludeBillPayment)
-                list = list.ExcludeBillPayment();
+                list = list.ExcludeBillPaymentLastBill();
 
             if (excludeCorrelations)
                 list = list.ExcludeCorrelations();
