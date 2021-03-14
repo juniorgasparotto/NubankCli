@@ -73,7 +73,7 @@ namespace NubankCli.Cli
                     App.Console.Write(result.GetQrCodeAsAscii());
                     
                     App.Console.Write(" ");
-                    App.Console.Warning($"Use seu telefone para escanear e depois disso pressione a telcar 'enter' para continuar ...");
+                    App.Console.Warning($"Use seu telefone para escanear e depois disso pressione a tecla 'enter' para continuar ...");
 
                     App.Console.Read();
                 }

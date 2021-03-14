@@ -79,6 +79,7 @@ namespace NubankCli.Core.Entities
             Longitude = 0;
             Value = saving.GetValueWithSignal();
             Type = Enum.GetName(typeof(TransactionType), saving.TypeName);
+            IsBillPaymentLastBill = saving.TypeName == TransactionType.BillPaymentEvent;
         }
 
         public string GetNameFormatted()
