@@ -26,7 +26,7 @@ namespace NubankCli.Core.Repositories.Api
 
         public decimal GetValueFromDetails()
         {
-            return DecimalExtensions.ParseFromPtBr(Detail.Split(new char[] { '-', '\n' })[1].Trim()).Value;
+            return DecimalExtensions.ParseFromPtBr(Detail.Split("R$")[1].Trim()).Value;
         }
 
         public string[] SplitDetails()
