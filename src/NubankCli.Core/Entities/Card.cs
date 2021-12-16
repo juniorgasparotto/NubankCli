@@ -1,7 +1,8 @@
-﻿using System.Diagnostics;
+﻿using NubankSharp;
+using System.Diagnostics;
 using System.IO;
 
-namespace NubankCli.Core.Entities
+namespace NubankSharp.Entities
 {
     [DebuggerDisplay("Card: {GetCardName()}")]
     public class Card
@@ -10,7 +11,7 @@ namespace NubankCli.Core.Entities
         public const string CREDIT_CARD_NAME = "credit-card";
         public const string CREDIT_CARD_BY_MONTH_NAME = "credit-card-by-month";
 
-        public User User { get; }
+        public string UserName { get; }
         public string Name => GetCardName();
         public int BankId => Constants.BANK_ID;
         public int Agency { get; set; }
@@ -18,9 +19,9 @@ namespace NubankCli.Core.Entities
         public CardType CardType { get; set; }
         public StatementType StatementType { get; set; }
 
-        public Card(User user, CardType cardType, StatementType statementType, int agency = 0, int account = 0)
+        public Card(string userName, CardType cardType, StatementType statementType, int agency = 0, int account = 0)
         {
-            User = user;
+            UserName = userName;
             StatementType = statementType;
             Agency = agency;
             Account = account;
@@ -44,11 +45,6 @@ namespace NubankCli.Core.Entities
 
 
             return name;
-        }
-
-        public string GetPath()
-        {
-            return Path.Combine(User.GetPath(), GetCardName());
         }
     }
 }

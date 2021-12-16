@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace NubankCli.Core.Entities
+namespace NubankSharp.Entities
 {
     [DebuggerDisplay("Start: {Start} End: {End} Count: {Transactions.Count}")]
     public class Statement
@@ -15,17 +15,5 @@ namespace NubankCli.Core.Entities
         public Card Card { get; set; }
         public StatementType StatementType { get; set; }
         public List<Transaction> Transactions { get; set; }
-
-        public string GetPath()
-        {
-            var dtStart = Start.ToString("yyyy-MM");
-            var dtEnd = End.ToString("yyyy-MM");
-            var fileName = dtStart;
-
-            if (dtStart != dtEnd)
-                fileName += $"_{dtEnd}";
-
-            return Path.Combine(Card.GetPath(), $"{fileName}.json");
-        }
     }
 }

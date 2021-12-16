@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NubankCli.Extensions.Tables
+namespace NubankSharp.Extensions.Tables
 {
     public interface ITableConfig<T>
     {

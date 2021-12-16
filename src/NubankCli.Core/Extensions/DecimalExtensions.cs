@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace NubankCli.Core.Extensions
+namespace NubankSharp.Extensions
 {
     public static class DecimalExtensions
     {
@@ -17,6 +17,5 @@ namespace NubankCli.Core.Extensions
 
             return null;
         }
-
     }
 }

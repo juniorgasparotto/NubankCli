@@ -2,7 +2,7 @@
 using SysCommand.ConsoleApp;
 using SysCommand.ConsoleApp.Results;
 
-namespace NubankCli.Cli
+namespace NubankSharp.Cli
 {
     public class MainCommand : Command
     {

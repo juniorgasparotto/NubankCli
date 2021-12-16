@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace NubankCli.Core.Repositories.Api
+namespace NubankSharp.Repositories.Api
 {
     /// <summary>
     /// Code extracted from https://stackoverflow.com/questions/22752075/how-can-i-ignore-unknown-enum-values-during-json-deserialization

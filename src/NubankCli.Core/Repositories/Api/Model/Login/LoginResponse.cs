@@ -1,39 +1,38 @@
-﻿using QRCoder;
-using System.Drawing;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Authentication;
 
-namespace NubankCli.Core.Repositories.Api
+namespace NubankSharp.Repositories.Api
 {
     public class LoginResponse
     {
-        public LoginResponse()
+        public string Token { get; private set; }
+        public string RefreshToken { get; private set; }
+        public Dictionary<string, string> AutenticatedUrls { get; private set; }
+
+        public LoginResponse(Dictionary<string, object> response)
         {
-            NeedsDeviceAuthorization = false;
-        }
+            // Set Tokens
+            if (response.Keys.Any(x => x == "error"))
+                throw new AuthenticationException(response["error"].ToString());
 
-        public LoginResponse(string code)
-        {
-            NeedsDeviceAuthorization = true;
-            Code = code;
+            if (!response.Keys.Any(x => x == "access_token"))
+                throw new AuthenticationException("Unknow error occurred on trying to do login on Nubank using the entered credentials");
+        
+            Token = response["access_token"].ToString();
 
-            var qrGenerator = new QRCodeGenerator();
-            _qrCodeData = qrGenerator.CreateQrCode(Code, QRCodeGenerator.ECCLevel.Q);
-        }
+            if (response.ContainsKey("refresh_token"))
+                RefreshToken = response["refresh_token"].ToString();
 
-        private readonly QRCodeData _qrCodeData;
-
-        public bool NeedsDeviceAuthorization { get; }
-        public string Code { get; }
-
-        public string GetQrCodeAsAscii()
-        {
-            var qrCode = new AsciiQRCode(_qrCodeData);
-            return qrCode.GetGraphic(1);
-        }
-
-        public Bitmap GetQrCodeAsBitmap()
-        {
-            var qrCode = new QRCode(_qrCodeData);
-            return qrCode.GetGraphic(20);
+            // Set urls
+            var listLinks = (JObject)response["_links"];
+            var properties = listLinks.Properties();
+            var values = listLinks.Values();
+            this.AutenticatedUrls = listLinks
+                .Properties()
+                .Select(x => new KeyValuePair<string, string>(x.Name, (string)listLinks[x.Name]["href"]))
+                .ToDictionary(key => key.Key, key => key.Value);
         }
     }
 }

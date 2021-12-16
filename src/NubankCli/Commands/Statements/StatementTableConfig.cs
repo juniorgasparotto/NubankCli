@@ -1,11 +1,11 @@
-﻿using NubankCli.Extensions.Tables;
-using NubankCli.Core.Entities;
-using NubankCli.Core.Extensions;
-using NubankCli.Core.Extensions.Formatters;
+﻿using NubankSharp.Extensions.Tables;
+using NubankSharp.Entities;
+using NubankSharp.Extensions;
+using NubankSharp.Cli.Extensions.Formatters;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NubankCli.Commands.Statements
+namespace NubankSharp.Commands.Statements
 {
     public class StatementTableConfig : ITableConfig<Statement>
     {

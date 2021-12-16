@@ -1,4 +1,4 @@
-﻿namespace NubankCli.Core
+﻿namespace NubankSharp
 {
     public enum StatementType
     {

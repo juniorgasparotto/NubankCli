@@ -1,8 +1,10 @@
 ﻿using SysCommand.ConsoleApp;
 using System;
-using NubankCli.Extensions;
+using NubankSharp.Extensions;
+using NubankSharp.Repositories.Files;
+using NubankSharp.Entities;
 
-namespace NubankCli.Cli
+namespace NubankSharp.Cli
 {
     public class LogoutCommand : Command
     {
@@ -10,14 +12,11 @@ namespace NubankCli.Cli
         {
             try
             {
-                var jsonFileManager = this.GetService<JsonFileManager>();
-
                 var user = this.GetCurrentUser();
-                var userInfo = user.GetUserInfo();
-                userInfo.Token = null;
-                userInfo.AutenticatedUrls = null;
-                
-                jsonFileManager.Save(userInfo, user.UserInfoPath);
+                user.Token = null;
+                user.AutenticatedUrls = null;
+
+                this.SaveUser(user);
                 this.SetCurrentUser(null);
 
                 App.Console.Success("Logout efetuado com sucesso!");

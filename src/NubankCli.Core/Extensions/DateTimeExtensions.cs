@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NubankCli.Core.Extensions
+namespace NubankSharp.Extensions
 {
     public static class DateTimeExtensions
     {

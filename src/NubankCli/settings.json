@@ -1,6 +1,6 @@
 {
   "NubankUrl": "https://prod-s0-webapp-proxy.nubank.com.br",
   "MockUrl": "http://localhost:6513",
-  "EnableMockServer": false,
-  "CurrentUser": null
+  "EnableMockServer": true,
+  "EnableDebugFile": true
 }

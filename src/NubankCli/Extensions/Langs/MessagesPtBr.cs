@@ -1,4 +1,4 @@
-﻿namespace NubankCli.Extensions.Langs
+﻿namespace NubankSharp.Extensions.Langs
 {
     public class MessagesPtBr
     {

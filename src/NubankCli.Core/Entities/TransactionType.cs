@@ -1,4 +1,4 @@
-﻿namespace NubankCli.Core.Entities
+﻿namespace NubankSharp.Entities
 {
     public enum TransactionType
     {
@@ -22,5 +22,7 @@
         DebitWithdrawalEvent,
         CreditEvent,
         GenericFeedEvent,
+        LendingTransferInEvent,
+        LendingTransferOutEvent
     }
 }

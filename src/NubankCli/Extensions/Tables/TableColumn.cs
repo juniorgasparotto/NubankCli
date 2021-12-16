@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NubankCli.Extensions.Tables
+namespace NubankSharp.Extensions.Tables
 {
     public class TableColumn<T>
     {

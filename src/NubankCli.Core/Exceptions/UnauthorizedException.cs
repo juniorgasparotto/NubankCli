@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NubankCli.Core.Exceptions
+namespace NubankSharp.Exceptions
 {
     public class UnauthorizedException : Exception
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NubankCli.Core.Repositories.Api
+namespace NubankSharp.Repositories.Api
 {
     public class GetBillsResponse
     {

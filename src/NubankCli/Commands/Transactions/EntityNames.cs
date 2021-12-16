@@ -1,4 +1,4 @@
-﻿namespace NubankCli.Commands.Transactions
+﻿namespace NubankSharp.Commands.Transactions
 {
     public enum EntityNames
     {

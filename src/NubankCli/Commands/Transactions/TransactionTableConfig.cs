@@ -1,9 +1,9 @@
-﻿using NubankCli.Extensions.Tables;
-using NubankCli.Core.Entities;
-using NubankCli.Core.Extensions.Formatters;
+﻿using NubankSharp.Extensions.Tables;
+using NubankSharp.Entities;
+using NubankSharp.Cli.Extensions.Formatters;
 using System.Collections.Generic;
 
-namespace NubankCli.Commands.Transactions
+namespace NubankSharp.Commands.Transactions
 {
     public class TransactionTableConfig : ITableConfig<Transaction>
     {

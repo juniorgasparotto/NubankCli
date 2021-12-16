@@ -1,4 +1,4 @@
-﻿namespace NubankCli.Core.Entities
+﻿namespace NubankSharp.Entities
 {
     public enum CardType
     {

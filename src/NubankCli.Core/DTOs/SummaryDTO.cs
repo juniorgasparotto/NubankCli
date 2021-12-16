@@ -1,4 +1,4 @@
-﻿namespace NubankCli.Core.DTOs
+﻿namespace NubankSharp.DTOs
 {
     public  class SummaryDTO
     {

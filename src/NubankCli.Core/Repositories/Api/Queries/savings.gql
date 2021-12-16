@@ -1,0 +1,66 @@
+﻿{
+  viewer {
+    savingsAccount {
+      id feed,
+      {
+        id __typename,
+        title detail,
+        postDate ...,        
+        on BarcodePaymentFailureEvent,
+        {
+          amount
+        },
+        ... on,
+        TransferInEvent {
+          amount originAccount,
+          {
+            name
+          }
+        },
+        ... on,
+        TransferOutEvent {
+          amount destinationAccount,
+          {
+            name
+          }
+        },
+        ... on,
+        TransferOutReversalEvent {
+          amount
+        },
+        ... on,
+        BillPaymentEvent {
+          amount
+        },
+        ... on,
+        DebitPurchaseEvent {
+          amount
+        },
+        ... on,
+        BarcodePaymentEvent {
+          amount
+        },
+        ... on,
+        DebitWithdrawalFeeEvent {
+          amount
+        },
+        ... on,
+        DebitWithdrawalEvent {
+          amount
+        }
+        ... on,
+        LendingTransferOutEvent {
+          amount
+        },
+        ... on,
+        LendingTransferInEvent {
+          amount
+        },
+        ... on,
+        PhoneRechargeSuccessEvent  {
+          amount
+        }
+      }
+    }
+  }
+}

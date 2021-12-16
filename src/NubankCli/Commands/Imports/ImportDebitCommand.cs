@@ -1,15 +1,14 @@
 ﻿using SysCommand.ConsoleApp;
 using System;
-using NubankCli.Core;
-using NubankCli.Core.Services;
-using NubankCli.Extensions;
+using NubankSharp.Services;
+using NubankSharp.Extensions;
 using System.IO;
-using NubankCli.Core.Entities;
+using NubankSharp.Entities;
 using System.Collections.Generic;
-using NubankCli.Core.Extensions;
-using NubankCli.Core.Extensions.Formatters;
+using NubankSharp.Cli.Extensions.Formatters;
+using NubankSharp.Repositories.Files;
 
-namespace NubankCli.Cli
+namespace NubankSharp.Cli
 {
     public partial class ImportCommand : Command
     {
@@ -17,23 +16,20 @@ namespace NubankCli.Cli
         {
             try
             {
+                // 1) Obtem as transações da NuConta
                 var user = this.GetCurrentUser();
-                var card = new Card(user, CardType.NuConta, StatementType.ByMonth, agency, account);
-                var repository = this.GetNubankRepositoryByUser(user);
-                var savingsService = this.GetService<SavingService>();
-                var statementService = this.GetService<StatementService>();
-                var jsonManager = this.GetService<JsonFileManager>();
+                var card = new Card(user.UserName, CardType.NuConta, StatementType.ByMonth, agency, account);
+                var nuApi = this.CreateNuApiByUser(user, nameof(ImportDebit));
+                var transations = nuApi.GetDebitTransactions(start, end);
 
-                List<Statement> statements;
-                var savings = savingsService.GetItemsByMonth(start, end);
+                // 2) Converte em extratos mensais para salvar um arquivo por mês
+                var statementFileRepository = new StatementFileRepository();
+                var statements = transations.ToStatementByMonth(card);
+                foreach (var s in statements)
+                    statementFileRepository.Save(s, this.GetStatementFileName(s));
 
-                statements = statementService.ToStatementByMonth(savings, card);
-
-                foreach (var e in statements)
-                    jsonManager.Save(e, e.GetPath());
-
-                var allTransactions = statements.GetTransactions();
-                var allSummary = allTransactions.Summary();
+                // 3) OUTPUT das transações
+                var allSummary = transations.Summary();
 
                 App.Console.Success($" ");
                 App.Console.Success($"TOTAL (ENTRADA): " + $"{allSummary.ValueIn.Format()} ({allSummary.CountIn})");
@@ -47,7 +43,7 @@ namespace NubankCli.Cli
                 {
                     App.Console.Warning($" ");
                     App.Console.Warning($"TRANSAÇÕES IMPORTADAS EM:");
-                    App.Console.Warning($"    {Path.GetFullPath(card.GetPath())}");
+                    App.Console.Warning($"    {Path.GetFullPath(this.GetCardPath(card))}");
                 }
 
                 App.Console.Warning($" ");

@@ -1,17 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Queries\savings.gql" />
+    <None Remove="sbin\publish.sh" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Queries\savings.gql" />
+  </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NubankCli.Core\NubankCli.Core.csproj" />
+    <ProjectReference Include="..\NubankCli.Core\NubankSharp.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.9" />
     <PackageReference Include="SysCommand" Version="2.0.0" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.1" />
+    <PackageReference Include="System.Memory" Version="4.5.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="sbin\" />
     <Folder Include="UsersData\" />
   </ItemGroup>
 </Project>

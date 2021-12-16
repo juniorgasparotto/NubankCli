@@ -1,12 +1,12 @@
-namespace NubankCli.Extensions
+namespace NubankSharp.Extensions
 {
     using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json;
-    using NubankCli.Extensions.Tables;
-    using NubankCli.Extensions.Langs;
-    using NubankCli.Core.Entities;
-    using NubankCli.Core.Exceptions;
-    using NubankCli.Core.Repositories.Api;
+    using NubankSharp.Extensions.Tables;
+    using NubankSharp.Extensions.Langs;
+    using NubankSharp.Entities;
+    using NubankSharp.Exceptions;
+    using NubankSharp.Repositories.Api;
     using SysCommand.ConsoleApp;
     using System;
     using System.Collections.Generic;
@@ -15,44 +15,134 @@ namespace NubankCli.Extensions
     using System.Linq.Dynamic.Core;
     using System.Runtime.InteropServices;
     using System.Security;
-    using NubankCli.Core.Configuration;
     using Microsoft.Extensions.Options;
-    using NubankCli.Extensions.Configurations;
+    using NubankSharp.Cli.Extensions;
+    using NubankSharp.Repositories.Files;
+    using NubankSharp.Models;
 
     public static class CommandExtensions
     {
         public static Guid _userId;
 
         private const string LINE_SEPARATOR = "\r\n\r\n";
+        public static readonly string QUERY_FOLDER = Path.Combine(EnvironmentExtensions.ProjectRootOrExecutionDirectory, "Queries");
+        public static readonly string USERSDATA_FOLDER = Path.Combine(EnvironmentExtensions.ProjectRootOrExecutionDirectory, "UsersData");
+        public static readonly string SESSION_FILE_PATH = Path.Combine(USERSDATA_FOLDER, "session.json");
+        public static readonly string USER_FILE_NAME = "nu-user.json";
+        public static NuSession SESSION = null;
+        public const int FIRST_PAGE = 1;
+
+        #region Session
+
+        public static NuSession GetSession(this Command command)
+        {
+            if (SESSION == null)
+            {
+                var repo = command.GetService<JsonFileRepository<NuSession>>();
+                var nuSession = repo.GetFile(SESSION_FILE_PATH);
+                SESSION = nuSession ?? new NuSession();
+            }
+            return SESSION;
+        }
+
+        public static void SaveSession(this Command command)
+        {
+            var nuSession = GetSession(command);
+            var repo = command.GetService<JsonFileRepository<NuSession>>();
+            repo.Save(nuSession, SESSION_FILE_PATH);
+        }
+
+        public static NuUser GetCurrentUser(this Command command)
+        {
+            var session = GetSession(command);
+            if (string.IsNullOrWhiteSpace(session?.CurrentUser))
+                throw new UnauthorizedException();
+
+            var repo = command.GetService<JsonFileRepository<NuUser>>();
+            return repo.GetFile(command.GetUserFileName(session.CurrentUser));
+        }
 
         public static void SetCurrentUser(this Command command, string userName)
         {
-            var configManager = command.GetService<ConfigManager>();
-            var appSettings = command.GetService<IOptions<AppSettings>>()?.Value;
-            appSettings.CurrentUser = userName;
-            configManager.Save(appSettings);
+            var session = GetSession(command);
+            session.CurrentUser = userName;
+            SaveSession(command);
         }
 
-        public static User GetCurrentUser(this Command command)
+        #endregion
+
+        #region UsersData
+
+        public static string GetUserPath(this Command command, NuUser user)
         {
-            var appSettings = command.GetService<IOptions<AppSettings>>()?.Value;
-
-            if (string.IsNullOrWhiteSpace(appSettings?.CurrentUser))
-                throw new UnauthorizedException();
-
-            return new User(appSettings.CurrentUser);
+            return command.GetUserPath(user.UserName);
         }
 
-        public static NubankRepository GetNubankRepositoryByUser(this Command command, User user)
+        public static string GetUserPath(this Command command, string userName)
         {
-            var repository = command.GetService<NubankRepository>();
-            var userInfo = user.GetUserInfo();
+            return Path.Combine(EnvironmentExtensions.ProjectRootOrExecutionDirectory, "UsersData", userName);
+        }
 
-            if (userInfo == default)
+        public static string GetUserFileName(this Command command, NuUser user)
+        {
+            return command.GetUserFileName(user.UserName);
+        }
+
+        public static string GetUserFileName(this Command command, string userName)
+        {
+            return Path.Combine(command.GetUserPath(userName), USER_FILE_NAME);
+        }
+
+        public static string GetCardPath(this Command command, Card card)
+        {
+            return Path.Combine(command.GetUserPath(card.UserName), card.Name);
+        }
+
+        public static string GetStatementFileName(this Command command, Statement statement)
+        {
+            var dtStart = statement.Start.ToString("yyyy-MM");
+            var dtEnd = statement.End.ToString("yyyy-MM");
+            var fileName = dtStart;
+
+            if (dtStart != dtEnd)
+                fileName += $"_{dtEnd}";
+
+            return Path.Combine(command.GetCardPath(statement.Card), $"{fileName}.json");
+        }
+
+        public static NuUser GetUser(this Command command, string userName)
+        {
+            var repo = command.GetService<JsonFileRepository<NuUser>>();
+            return repo.GetFile(command.GetUserFileName(userName));
+        }
+
+        public static void SaveUser(this Command command, NuUser user)
+        {
+            var repo = command.GetService<JsonFileRepository<NuUser>>();
+            repo.Save(user, command.GetUserFileName(user.UserName));
+        }
+
+        #endregion
+
+        public static NuHttpClient CreateNuHttpClient(this Command command, NuUser user, string scope = null)
+        {
+            var appSettings = command.GetService<IOptions<NuAppSettings>>().Value;
+            return new NuHttpClient(
+                        user,
+                        appSettings.NubankUrl,
+                        appSettings.EnableMockServer ? appSettings.MockUrl : null,
+                        appSettings.EnableDebugFile ? new NuHttpClientLogging(user.UserName, scope, Path.Combine(EnvironmentExtensions.ProjectRootOrExecutionDirectory, "Logs")) : null
+                    );
+        }
+
+        public static NuApi CreateNuApiByUser(this Command command, NuUser user, string scope = null)
+        {
+            if (user.Token == null)
                 throw new UnauthorizedException();
 
-            repository.Endpoints.AutenticatedUrls = userInfo.AutenticatedUrls;
-            repository.AuthToken = userInfo.Token;
+            var httpClient = command.CreateNuHttpClient(user, scope);
+            var endPointRepository = new EndPointApi(httpClient);
+            var repository = new NuApi(httpClient, endPointRepository, new GqlQueryRepository(QUERY_FOLDER));
             return repository;
         }
 
@@ -81,7 +171,7 @@ namespace NubankCli.Extensions
                 command.App.Console.Error(exception.StackTrace);
             }
 
-            bool check<TVerify>(Exception eIn, out TVerify eOut) where TVerify : Exception
+            static bool check<TVerify>(Exception eIn, out TVerify eOut) where TVerify : Exception
             {
                 eOut = default(TVerify);
                 if (eIn is TVerify verify)
@@ -233,125 +323,6 @@ namespace NubankCli.Extensions
 
             return !string.IsNullOrWhiteSpace(result) && yesOptions.Contains(result);
         }
-
-        //public static T ExternalEdit<T>(this Command command, T obj = default, string prefix = null, string extension = null)
-        //    where T : class
-        //{
-        //    var appSettings = GetService<IOptions<AppSettings>>(command).Value;
-        //    var configManager = GetService<IConfigManager>(command);
-        //    string str;
-        //    string tempFile;
-        //    var isString = obj.GetDeclaredType() == typeof(string);
-
-        //    if (isString)
-        //    {
-        //        str = obj as string;
-        //        tempFile = GetTempFile<T>(prefix, extension ?? "txt");
-        //    }
-        //    else
-        //    {
-        //        if (obj == null)
-        //            obj = Activator.CreateInstance<T>();
-
-        //        str = obj.Serialize(true);
-        //        tempFile = GetTempFile<T>(prefix, extension ?? "json");
-        //    }
-
-        //    string editor;
-
-        //    File.WriteAllText(tempFile, str);
-
-        //    if (!string.IsNullOrWhiteSpace(appSettings.Editor))
-        //    {
-        //        editor = appSettings.Editor;
-        //    }
-        //    else
-        //    {
-        //        var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-        //        var isFreeBSD = RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
-        //        var isOSX = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-        //        var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-
-        //        if (isLinux || isFreeBSD || isOSX)
-        //            editor = "vi";
-        //        else if (isWindows)
-        //            editor = "notepad";
-        //        else
-        //            throw new Exception("Nenhum editor foi encontrado");
-        //    }
-
-        //    Process process;
-
-        //    try
-        //    {
-        //        var args = ParseCommandAndArguments(editor, tempFile);
-        //        var processStartInfo = new ProcessStartInfo()
-        //        {
-        //            FileName = args.FileName,
-        //            Arguments = args.Arguments,
-        //            UseShellExecute = true
-        //        };
-
-        //        process = Process.Start(processStartInfo);
-        //        process.WaitForExit();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        command.App.Console.Error(string.Format(MessagesPtBr.EDITOR_NOT_FOUND, editor));
-        //        throw ex;
-        //    }
-
-        //    if (editor != appSettings.Editor)
-        //    {
-        //        appSettings.Editor = editor;
-        //        configManager.Save(appSettings);
-        //    }
-
-        //    string fileEdited = File.ReadAllText(tempFile);
-
-        //    try
-        //    {
-        //        File.Delete(tempFile);
-        //    }
-        //    catch { }
-
-
-        //    if (isString)
-        //        return fileEdited as T;
-
-        //    return fileEdited.Deserialize<T>();
-        //}
-
-        //private static (string FileName, string Arguments) ParseCommandAndArguments(string arguments, string file)
-        //{
-        //    var split = arguments.Split(' ').ToList();
-        //    var fileName = "";
-
-        //    // 1) IF for um caminho completo, ou seja, com barras 
-        //    // c:\program files\code.exe --wait
-        //    // devolve "c:\program files\code.exe" como fileName e "--wait" como argumentos
-        //    // 2) ELSE for um alias de algum comando: "code --wait"
-        //    // devolve "code" como fileName e "--wait" como argumentos
-        //    if (arguments.Contains("/") || arguments.Contains("\\"))
-        //    {
-        //        foreach (var i in split.ToArray())
-        //        {
-        //            split.RemoveAt(0);
-
-        //            fileName += $"{i} ";
-        //            if (File.Exists(fileName))
-        //                break;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        fileName = split[0];
-        //        split.RemoveAt(0);
-        //    }
-
-        //    split.Insert(0, $"\"{file}\"");
-        //    return (fileName.Trim(), string.Join(' ', split));
-        //}
 
         private static string ToTable<T>(Command command, IEnumerable<T> value, string output)
         {

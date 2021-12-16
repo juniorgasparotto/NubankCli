@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
-using NubankCli.Core.Extensions.Formatters;
+using NubankSharp.Cli.Extensions.Formatters;
 
-namespace NubankCli.Extensions.Tables
+namespace NubankSharp.Extensions.Tables
 {
     /// <summary>
     /// This class brings the output tabled feature that can be very useful to present]

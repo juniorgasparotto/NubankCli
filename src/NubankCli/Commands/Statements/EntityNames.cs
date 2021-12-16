@@ -1,4 +1,4 @@
-﻿namespace NubankCli.Commands.Statements
+﻿namespace NubankSharp.Commands.Statements
 {
     public enum EntityNames
     {

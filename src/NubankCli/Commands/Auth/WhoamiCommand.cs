@@ -1,22 +1,22 @@
-﻿using NubankCli.Extensions;
+﻿using NubankSharp.Entities;
+using NubankSharp.Extensions;
+using NubankSharp.Repositories.Files;
 using SysCommand.ConsoleApp;
 using System;
 
-namespace NubankCli.Cli
+namespace NubankSharp.Cli
 {
     public class WhoamiCommand : Command
     {
         public void Whoami()
         {
-
             try
             {
                 var user = this.GetCurrentUser();
-
                 App.Console.Write($"USERNAME           : {user.UserName}");
-                App.Console.Write($"LOCALIZAÇÃO USUÁRIO: {user.GetPath()}");
+                App.Console.Write($"LOCALIZAÇÃO USUÁRIO: {this.GetUserFileName(user)}");
                 App.Console.Write($" ");
-                App.Console.Warning($"Seu token expira em: {user.GetUserInfo().GetExpiredDate()}");
+                App.Console.Warning($"Seu token gerado por '{user.GetLoginType()}' expira em: {user.GetExpiredDate()}");
             }
             catch (Exception ex)
             {

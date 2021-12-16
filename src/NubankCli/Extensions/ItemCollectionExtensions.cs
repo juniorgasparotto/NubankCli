@@ -1,7 +1,7 @@
 using System;
 using SysCommand.ConsoleApp;
 
-namespace NubankCli.Extensions
+namespace NubankSharp.Extensions
 {
     public static class ItemCollectionExtensions
     {

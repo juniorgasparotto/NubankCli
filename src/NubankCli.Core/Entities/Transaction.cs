@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using NubankCli.Core.Repositories.Api;
+using NubankSharp.Repositories.Api;
 using System;
 using System.Diagnostics;
 
-namespace NubankCli.Core.Entities
+namespace NubankSharp.Entities
 {
     [DebuggerDisplay("{EventDate} {Name} {Number}/{Count} {Value}")]
     public class Transaction
@@ -64,7 +64,7 @@ namespace NubankCli.Core.Entities
             Type = Enum.GetName(typeof(TransactionType), TransactionType.CreditEvent);
         }
 
-        public Transaction(Saving saving)
+        public Transaction(SavingFeed saving)
         {
             Id = saving.Id;
             Href = null;

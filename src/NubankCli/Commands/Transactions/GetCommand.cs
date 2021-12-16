@@ -1,15 +1,14 @@
-﻿namespace NubankCli.Commands.Transactions
+﻿namespace NubankSharp.Commands.Transactions
 {
     using SysCommand.ConsoleApp;
     using SysCommand.Mapping;
     using System;
     using Microsoft.Extensions.DependencyInjection;
-    using NubankCli.Core.Repositories;
-    using NubankCli.Extensions;
+    using NubankSharp.Extensions;
     using System.Linq;
     using System.Linq.Dynamic.Core;
-    using NubankCli.Core.Extensions.Formatters;
-    using NubankCli.Core.Extensions;
+    using NubankSharp.Cli.Extensions.Formatters;
+    using NubankSharp.Repositories.Files;
 
     public partial class TransactionCommand : Command
     {
@@ -28,8 +27,8 @@
         {
             try
             {
-                var repository = this.GetService<StatementRepository>();
-                var transactions = repository.GetTransactions(this.GetCurrentUser(), id, where, null, sort);
+                var statementFileRepository = new StatementFileRepository();
+                var transactions = statementFileRepository.GetTransactions(this.GetUserPath(this.GetCurrentUser()), id, where, null, sort);
                 var summary = transactions.Summary();
 
                 App.Console.Success($" ");

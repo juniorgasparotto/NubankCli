@@ -1,10 +1,10 @@
-﻿using NubankCli.Core.DTOs;
-using NubankCli.Core.Entities;
+﻿using NubankSharp.DTOs;
+using NubankSharp.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NubankCli.Core.Extensions
+namespace NubankSharp.Extensions
 {
     public static class TransactionExtensions
     {

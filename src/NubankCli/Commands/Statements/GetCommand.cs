@@ -1,34 +1,31 @@
-﻿namespace NubankCli.Commands.Statements
+﻿namespace NubankSharp.Commands.Statements
 {
     using SysCommand.ConsoleApp;
     using SysCommand.Mapping;
     using System;
-    using Microsoft.Extensions.DependencyInjection;
-    using NubankCli.Core.Repositories;
-    using NubankCli.Extensions;
+    using NubankSharp.Extensions;
     using System.Linq;
     using System.Linq.Dynamic.Core;
-    using NubankCli.Core.Extensions.Formatters;
-    using NubankCli.Core.Extensions;
-    using NubankCli.Core;
-    using NubankCli.Core.Services;
-    using NubankCli.Core.Entities;
+    using NubankSharp.Cli.Extensions.Formatters;
+    using NubankSharp;
+    using NubankSharp.Services;
+    using NubankSharp.Entities;
     using System.Collections.Generic;
+    using NubankSharp.Repositories.Files;
 
     public partial class StatementCommand : Command
     {
 
         [Action(Name = "get")]
         public void Get(
-           EntityNames type,
-           
+           EntityNames type,           
            [Argument(ShortName = 'c', LongName = "card")] CardType? card = null,
            [Argument(ShortName = 'm', LongName = "merge")] bool merge = false,
            [Argument(ShortName = 'h', LongName = "by-month")] bool byMonth = false,
            [Argument(ShortName = 'e', LongName = "exclude-redundance")] bool excludeRedundance = true,
            [Argument(ShortName = 'w', LongName = "where")] string where = null,
            [Argument(ShortName = 's', LongName = "sort")] string sort = "Start ASC",
-           [Argument(ShortName = 'P', LongName = "page")] int page = Constants.FIRST_PAGE,
+           [Argument(ShortName = 'P', LongName = "page")] int page = CommandExtensions.FIRST_PAGE,
            [Argument(ShortName = 'S', LongName = "page-size")] int pageSize = 100,
            [Argument(ShortName = 'A', LongName = "auto-page")] bool autoPage = true,
            [Argument(ShortName = 'o', LongName = "output")] string outputFormat = null
@@ -36,7 +33,7 @@
         {
             try
             {
-                var repository = this.GetService<StatementRepository>();
+                var statementFileRepository = new StatementFileRepository();
                 IEnumerable<Statement> statements;
 
                 // 1) Quando for cartão de credito, então removemos os pagamentos por padrão para que a visualização fique igual ao valor do boleto do APP
@@ -60,17 +57,17 @@
                 //          ENTRADA: 200
                 //          SAÍDA: 200
                 //          SALDO: 0
+                var userPath = this.GetUserPath(this.GetCurrentUser());
                 if (card == CardType.CreditCard)
-                    statements = repository.GetStatements(this.GetCurrentUser(), card, excludeRedundance, false, where, null, sort);
+                    statements = statementFileRepository.GetStatements(userPath, card, excludeRedundance, false, where, null, sort);
                 else if (card == CardType.NuConta)
-                    statements = repository.GetStatements(this.GetCurrentUser(), card, false, false, where, null, sort);
+                    statements = statementFileRepository.GetStatements(userPath, card, false, false, where, null, sort);
                 else
-                    statements = repository.GetStatements(this.GetCurrentUser(), card, false, excludeRedundance, where, null, sort);
+                    statements = statementFileRepository.GetStatements(userPath, card, false, excludeRedundance, where, null, sort);
 
                 if (byMonth || merge)
                 {
-                    var statementService = this.GetService<StatementService>();
-                    statements = statementService.ToStatementByMonth(statements.GetTransactions(), merge);
+                    statements = StatementExtensions.ToStatementByMonth(statements.GetTransactions(), merge);
                 }
 
                 var summary = statements.GetTransactions().Summary();

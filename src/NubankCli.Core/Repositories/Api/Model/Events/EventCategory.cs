@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace NubankCli.Core.Repositories.Api
+namespace NubankSharp.Repositories.Api
 {
     public enum EventCategory
     {

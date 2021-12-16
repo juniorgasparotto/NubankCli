@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace NubankCli.Core.Repositories.Api
+namespace NubankSharp.Repositories.Api
 {
     public class BillSummary
     {

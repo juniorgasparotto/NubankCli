@@ -1,15 +1,16 @@
 ﻿using SysCommand.ConsoleApp;
 using System;
-using NubankCli.Core;
-using NubankCli.Core.Services;
-using NubankCli.Extensions;
+using NubankSharp.Services;
+using NubankSharp.Extensions;
 using System.IO;
-using NubankCli.Core.Entities;
+using NubankSharp.Entities;
 using System.Collections.Generic;
-using NubankCli.Core.Extensions;
-using NubankCli.Core.Extensions.Formatters;
+using NubankSharp.Cli.Extensions.Formatters;
+using System.Linq;
+using NubankSharp.Repositories.Files;
+using NubankSharp.Repositories.Api.Services;
 
-namespace NubankCli.Cli
+namespace NubankSharp.Cli
 {
     public partial class ImportCommand : Command
     {
@@ -18,34 +19,30 @@ namespace NubankCli.Cli
             try
             {
                 var user = this.GetCurrentUser();
-                var card = new Card(user, CardType.CreditCard, statementType);
-                var repository = this.GetNubankRepositoryByUser(user);
-                var billService = this.GetService<BillService>();
-                var statementService = this.GetService<StatementService>();
-                var jsonManager = this.GetService<JsonFileManager>();
+                var card = new Card(user.UserName, CardType.CreditCard, statementType);
+                var nuApi = this.CreateNuApiByUser(user, nameof(ImportCredit));
 
-                var events = repository.GetEvents();
-
+                // 1) Obtem os extratos separado de forma mensal ou como boletos
                 List<Statement> statements;
-
                 if (statementType == StatementType.ByMonth)
                 {
-                    var billsTransactions = billService.GetBillItemsByMonth(start, end);
-                    billService.PopulateEvents(billsTransactions, events);
-                    statements = statementService.ToStatementByMonth(billsTransactions, card);
+                    var transactions = nuApi.GetCreditTransactions(start, end);
+                    statements = transactions.ToStatementByMonth(card);
                 }
                 else
                 {
-                    var bills = billService.GetBills(start, end);
-                    billService.PopulateEvents(bills, events);
-                    statements = statementService.ToStatementByBill(bills, card);
+                    var bills = nuApi.GetBills(start, end);
+                    statements = bills.ToStatementByBill(card);
                 }
 
+                // 2) Converte em extratos mensais para salvar um arquivo por mês
+                var statementFileRepository = new StatementFileRepository();
                 foreach (var e in statements)
-                    jsonManager.Save(e, e.GetPath());
+                    statementFileRepository.Save(e, this.GetStatementFileName(e));
 
                 statements = statements.ExcludeBillPaymentLastBill();
 
+                // 3) OUTPUT das transações
                 var allTransactions = statements.GetTransactions();
                 var allSummary = allTransactions.Summary();
 
@@ -61,7 +58,7 @@ namespace NubankCli.Cli
                 {
                     App.Console.Warning($" ");
                     App.Console.Warning($"TRANSAÇÕES IMPORTADAS EM:");
-                    App.Console.Warning($"    {Path.GetFullPath(card.GetPath())}");
+                    App.Console.Warning($"    {Path.GetFullPath(this.GetCardPath(card))}");
                 }
 
                 App.Console.Warning($" ");
