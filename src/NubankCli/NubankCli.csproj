@@ -4,11 +4,7 @@
     <TargetFramework>net5</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Queries\savings.gql" />
     <None Remove="sbin\publish.sh" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Queries\savings.gql" />
   </ItemGroup>
 
   <ItemGroup>

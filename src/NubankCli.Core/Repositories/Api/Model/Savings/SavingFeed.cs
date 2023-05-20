@@ -4,6 +4,7 @@ using NubankSharp.Extensions;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace NubankSharp.Repositories.Api
 {
@@ -23,9 +24,18 @@ namespace NubankSharp.Repositories.Api
         public Account OriginAccount { get; set; }
         public Account DestinationAccount { get; set; }
 
-        public decimal GetValueFromDetails()
+        public decimal? GetValueFromDetails()
         {
-            return DecimalExtensions.ParseFromPtBr(Detail.Split("R$")[1].Trim()).Value;
+            var match = Regex.Match(Detail, @"R\$\s*[-\d.,]+");
+
+            if (match.Success)
+            {
+                string matchValue = match.Value;
+                string valueStr = matchValue.Substring(2).Trim();
+                return DecimalExtensions.ParseFromPtBr(valueStr).Value;
+            }
+
+            return null;
         }
 
         public string[] SplitDetails()
@@ -53,7 +63,7 @@ namespace NubankSharp.Repositories.Api
                 TransactionType.SalaryPortabilityRequestApprovalEvent => ThrowNotImplementedException<decimal>(),
                 TransactionType.DebitWithdrawalFeeEvent => ThrowNotImplementedException<decimal>(),
                 TransactionType.DebitWithdrawalEvent => Amount.Value,
-                TransactionType.GenericFeedEvent => (Amount ?? 0) * -1,
+                TransactionType.GenericFeedEvent => Title?.ToLower().Contains("transferência recebida") == true ? Amount ?? 0 : (Amount ?? 0) * -1,
                 TransactionType.LendingTransferInEvent => Amount ?? 0,
                 TransactionType.LendingTransferOutEvent => (Amount ?? 0) * -1,
                 TransactionType.Unknown => 0,

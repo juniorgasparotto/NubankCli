@@ -1,7 +1,6 @@
 using NubankSharp.Entities;
 using NubankSharp.Extensions;
 using NubankSharp.Repositories.Api.Services;
-using NubankSharp.Repositories.Files;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +10,15 @@ namespace NubankSharp.Repositories.Api
     public class NuApi
     {
         private readonly EndPointApi _endPointRepository;
-        private readonly GqlQueryRepository _queryRepository;
+        private readonly IGqlQueryRepository _queryRepository;
 
         private NuHttpClient RestClient { get; }
 
-        public NuApi(NuHttpClient restClient, EndPointApi endPointRepository, GqlQueryRepository queryRepository)
+        public NuApi(NuHttpClient restClient, EndPointApi endPointRepository, IGqlQueryRepository queryRepository = null)
         {
             RestClient = restClient;
             this._endPointRepository = endPointRepository;
-            this._queryRepository = queryRepository;
+            this._queryRepository = queryRepository ?? new GqlQueryRepository();
         }
 
         public IEnumerable<SavingFeed> GetSavingsAccountFeed()
@@ -28,6 +27,17 @@ namespace NubankSharp.Repositories.Api
             return response.Data.Viewer.SavingsAccount.Feed;
         }
 
+        public decimal GetBalance()
+        {
+            var response = RestClient.Post<GetBalanceResponse>($"{nameof(_endPointRepository.GraphQl)}-{nameof(GetBalance)}", _endPointRepository.GraphQl, new { query = _queryRepository.GetGql("balance") }, null, out _);
+            return response.Data.Viewer.SavingsAccount.NetAmountBalance.NetAmount;
+        }
+
+        public string ExecuteQuery(string query)
+        {
+            var response = RestClient.Post($"{nameof(_endPointRepository.GraphQl)}-{nameof(ExecuteQuery)}", _endPointRepository.GraphQl, new { query }, null, out _);
+            return response;
+        }
 
         public IEnumerable<Event> GetEvents()
         {
@@ -41,7 +51,7 @@ namespace NubankSharp.Repositories.Api
             return response.Bills;
         }
 
-        public IEnumerable<Bill> GetBills(DateTime? start, DateTime? end, bool ignoreFuture = true, bool includeItems = true)
+        public IEnumerable<Bill> GetBills(DateTime? start = null, DateTime? end = null, bool ignoreFuture = true, bool includeItems = true)
         {
             var billService = new BillService(this);
             var bills = billService.GetBills(start, end, ignoreFuture, includeItems);
@@ -57,7 +67,7 @@ namespace NubankSharp.Repositories.Api
             return response.Bill;
         }
 
-        public IEnumerable<Transaction> GetDebitTransactions(DateTime? start, DateTime? end)
+        public IEnumerable<Transaction> GetDebitTransactions(DateTime? start = null, DateTime? end = null)
         {
             var feeds = GetSavingsAccountFeed();
             start = (start ?? feeds.Min(f => f.PostDate)).Date.GetDateBeginningOfMonth();
@@ -92,7 +102,10 @@ namespace NubankSharp.Repositories.Api
                     s.Amount ??= s.GetValueFromDetails();
                 }
 
-                savings.Add(new Transaction(s));
+                if (s.Amount != null)
+                    savings.Add(new Transaction(s));
+                else
+                    Console.WriteLine($"Registro não contém valores monetários {s.PostDate} - {s.Title} - {s.Detail}");
             }
 
             savings = savings.OrderBy(f => f.EventDate).ToList();

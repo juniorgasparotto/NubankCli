@@ -23,4 +23,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Repositories/Api/Queries/*" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Repositories\Api\Queries\balance.gql" />
+  </ItemGroup>
 </Project>

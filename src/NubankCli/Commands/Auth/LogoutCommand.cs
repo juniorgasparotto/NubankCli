@@ -14,6 +14,9 @@ namespace NubankSharp.Cli
             {
                 var user = this.GetCurrentUser();
                 user.Token = null;
+                user.RefreshToken = null;
+                user.CertificateBase64 = null;
+                user.CertificateCryptoBase64 = null;
                 user.AutenticatedUrls = null;
 
                 this.SaveUser(user);

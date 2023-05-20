@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using NubankSharp.Entities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace NubankSharp.Repositories.Api
 {
@@ -22,6 +24,11 @@ namespace NubankSharp.Repositories.Api
 
         [JsonProperty("_links")]
         public SelfLink Links { get; set; }
+
+        public IEnumerable<Transaction> GetTransactions()
+        {
+            return LineItems.Select(f => new Transaction(f));
+        }
     }
 
     [DebuggerDisplay("{PostDate} {Title} {Amount} {Index}/{Charges} ({Category})")]

@@ -139,6 +139,28 @@ namespace NubankSharp.Repositories.Api
             this.restClient.User.AutenticatedUrls = result.AutenticatedUrls;
         }
 
+        /// <summary>
+        /// PARTE_3: Faz o login informando os dados das respostas anteriores e obtendo as informações do usuário logado.
+        /// </summary>
+        /// <param name="beforeResponse"></param>
+        /// <returns></returns>
+        public void RefreshToken()
+        {
+            var body = new
+            {
+                grant_type = "refresh_token",
+                client_id = "legacy_client_id",
+                client_secret = "legacy_client_secret",
+                refresh_token = this.restClient.User.RefreshToken
+            };
+
+            var response = restClient.Post<Dictionary<string, object>>(nameof(endPointRepository.Token), endPointRepository.Token, body, out _);
+            var result = new LoginResponse(response);
+            this.restClient.User.Token = result.Token;
+            this.restClient.User.RefreshToken = result.RefreshToken;
+            this.restClient.User.AutenticatedUrls = result.AutenticatedUrls;
+        }
+
         #endregion
 
         #region LOGIN BY QRCODE

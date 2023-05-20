@@ -118,9 +118,9 @@ namespace NubankSharp.Extensions
             return list;
         }
 
-        public static List<Statement> ToStatementByMonth(this IEnumerable<Transaction> transactions, Card card = null)
+        public static List<Statement> ToStatementByMonth(this IEnumerable<Transaction> transactions, Card card = null, bool sortByPostDate = true)
         {
-            var months = transactions.GroupBy(f => f.PostDate.GetDateBeginningOfMonth()).Select(f =>
+            var months = transactions.GroupBy(f => (sortByPostDate ? f.PostDate : f.EventDate).GetDateBeginningOfMonth()).Select(f =>
             {
                 return new
                 {

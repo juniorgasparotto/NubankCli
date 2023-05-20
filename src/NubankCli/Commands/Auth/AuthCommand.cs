@@ -29,15 +29,38 @@ namespace NubankSharp.Cli
         {
             try
             {
-                //userName = "35412702848";
-                //password = "Junior1986#$&";
-
                 if (string.IsNullOrWhiteSpace(userName))
                     userName = App.Console.Read("UserName: ");
 
                 ValidateInfo(userName, nameof(userName));
 
                 var currentUser = this.GetUser(userName);
+
+                if (currentUser != null
+                    && !currentUser.IsValid()
+                    && !string.IsNullOrWhiteSpace(currentUser.Token)
+                    && !string.IsNullOrWhiteSpace(currentUser.RefreshToken)
+                )
+                {
+                    var httpClient = this.CreateNuHttpClient(currentUser, nameof(Login));
+                    var endPointRepository = new EndPointApi(httpClient);
+                    var authRepository = new NuAuthApi(httpClient, endPointRepository);
+
+                    try
+                    {
+                        App.Console.Write($"Iniciando refresh token...");
+                        authRepository.RefreshToken();
+                        App.Console.Success($"Token atualizado com sucesso!");
+                        currentUser.CleanPassword();
+                        this.SaveUser(currentUser);
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Console.Warning($"Ocorreu um erro na tentativa de fazer o refresh token, será iniciado o login novamente:" + ex.Message);
+                        currentUser = null;
+                    }
+                }
+                
                 if (currentUser == null || !currentUser.IsValid())
                 {
                     currentUser = new NuUser(userName, password);
@@ -45,7 +68,7 @@ namespace NubankSharp.Cli
                     var httpClient = this.CreateNuHttpClient(currentUser, nameof(Login));
                     var endPointRepository = new EndPointApi(httpClient);
                     var authRepository = new NuAuthApi(httpClient, endPointRepository);
-
+                    
                     // PARTE_1: Cria a aplicação no nubank e requisita o código por e-mail
                     App.Console.Write($"Criando contexto de login...");
                     var connectAppRes = authRepository.ConnectApp(userName, password);
@@ -63,6 +86,9 @@ namespace NubankSharp.Cli
 
                     currentUser.CleanPassword();
                     this.SaveUser(currentUser);
+
+                    var repo = new NuApi(httpClient, endPointRepository);
+                    var debits = repo.GetDebitTransactions();
                 }
 
                 this.SetCurrentUser(userName);

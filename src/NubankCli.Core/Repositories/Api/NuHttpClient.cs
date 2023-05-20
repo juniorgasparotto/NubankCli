@@ -71,7 +71,7 @@ namespace NubankSharp.Repositories.Api
             }
         }
 
-        public T Get<T>(string name, string url, out IRestResponse<T> response, params int[] allowedStatusCode) where T : new()
+        public T Get<T>(string name, string url, out IRestResponse<T> response, params int[] allowedStatusCode)
         {
             this.AuthenticateIfLogged();
 
@@ -82,7 +82,7 @@ namespace NubankSharp.Repositories.Api
             return GetResponseOrException(name, response, "GET", url, allowedStatusCode);
         }
 
-        public T Get<T>(string name, string url, Dictionary<string, string> headers, out IRestResponse<T> response, params int[] allowedStatusCode) where T : new()
+        public T Get<T>(string name, string url, Dictionary<string, string> headers, out IRestResponse<T> response, params int[] allowedStatusCode)
         {
             this.AuthenticateIfLogged();
 
@@ -102,7 +102,7 @@ namespace NubankSharp.Repositories.Api
             return GetResponseOrException(name, response, "GET", url, allowedStatusCode);
         }
 
-        public T Post<T>(string name, string url, object body, out IRestResponse<T> response, params int[] allowedStatusCode) where T : new()
+        public T Post<T>(string name, string url, object body, out IRestResponse<T> response, params int[] allowedStatusCode)
         {
             this.AuthenticateIfLogged();
 
@@ -117,7 +117,7 @@ namespace NubankSharp.Repositories.Api
             return GetResponseOrException(name, response, "POST", url, allowedStatusCode);
         }
 
-        public T Post<T>(string name, string url, object body, Dictionary<string, string> headers, out IRestResponse<T> response, params int[] allowedStatusCode) where T : new()
+        public string Post(string name, string url, object body, Dictionary<string, string> headers, out IRestResponse response, params int[] allowedStatusCode)
         {
             this.AuthenticateIfLogged();
 
@@ -134,7 +134,27 @@ namespace NubankSharp.Repositories.Api
             }
 
             request.AddJsonBody(body);
+            response = _client.Post(request);
+            return GetResponseOrException(name, response, "POST", url, allowedStatusCode);
+        }
 
+        public T Post<T>(string name, string url, object body, Dictionary<string, string> headers, out IRestResponse<T> response, params int[] allowedStatusCode)
+        {
+            this.AuthenticateIfLogged();
+
+            var request = new RestRequest();
+            url = GetUrl(url);
+            _client.BaseUrl = new Uri(url);
+
+            if (headers != null)
+            {
+                headers.ToList().ForEach((KeyValuePair<string, string> header) =>
+                {
+                    request.AddHeader(header.Key, header.Value);
+                });
+            }
+
+            request.AddJsonBody(body);
             response = _client.Post<T>(request);
             return GetResponseOrException(name, response, "POST", url, allowedStatusCode);
         }
@@ -163,15 +183,25 @@ namespace NubankSharp.Repositories.Api
             return url;
         }
 
-        private T GetResponseOrException<T>(string name, IRestResponse<T> response, string verb, string url, params int[] allowedStatusCode) where T : new()
+        private T GetResponseOrException<T>(string name, IRestResponse<T> response, string verb, string url, params int[] allowedStatusCode)
         {
             SaveContentToFile(url, response, name);
+            CheckStatus(response, verb, url, allowedStatusCode);
+            return response.Data;
+        }
 
+        private string GetResponseOrException(string name, IRestResponse response, string verb, string url, params int[] allowedStatusCode)
+        {
+            SaveContentToFile(url, response, name);
+            CheckStatus(response, verb, url, allowedStatusCode);
+            return response.Content;
+        }
+
+        private void CheckStatus(IRestResponse response, string verb, string url, int[] allowedStatusCode)
+        {
             var statusCode = (int)response.StatusCode;
             if ((statusCode == 0 || statusCode > 299) && !allowedStatusCode.Contains(statusCode))
                 throw response.ErrorException ?? new Exception($"{verb} {url} - ({statusCode}) {response.ErrorMessage ?? response.StatusDescription}");
-
-            return response.Data;
         }
 
         /// <summary>
@@ -179,7 +209,7 @@ namespace NubankSharp.Repositories.Api
         /// </summary>
         /// <param name="content">Content to save</param>
         /// <param name="fileName">File location</param>
-        public void SaveContentToFile<T>(string url, IRestResponse<T> response, string name)
+        public void SaveContentToFile(string url, IRestResponse response, string name)
         {
             if (_logging != null && this._logging != null)
             {
@@ -189,6 +219,7 @@ namespace NubankSharp.Repositories.Api
                 stringBuilder.AppendLine($"{response.Request.Method} {url}");
                 var hasJson = false;
                 var hasBody = false;
+                
                 foreach (var h in response.Request.Parameters)
                 {
                     if (h.Type != ParameterType.RequestBody)
@@ -204,7 +235,7 @@ namespace NubankSharp.Repositories.Api
                 }
 
                 if (hasBody && hasJson)
-                    stringBuilder.AppendLine(BeautifyJson(response.Request.Body.Value.ToString()));
+                    stringBuilder.AppendLine(StringExtensions.BeautifyJson(response.Request.Body.Value.ToString()));
                 else if (hasBody)
                     stringBuilder.AppendLine(response.Request.Body.Value.ToString());
 
@@ -226,7 +257,7 @@ namespace NubankSharp.Repositories.Api
                 if (!string.IsNullOrWhiteSpace(response.Content))
                 {
                     stringBuilder.AppendLine();
-                    stringBuilder.AppendLine(hasJson ? BeautifyJson(response.Content) : response.Content);
+                    stringBuilder.AppendLine(hasJson ? StringExtensions.BeautifyJson(response.Content) : response.Content);
                 }
 
                 var count = 0;
@@ -243,25 +274,6 @@ namespace NubankSharp.Repositories.Api
                 FileExtensions.CreateFolderIfNeeded(fileName);
                 File.WriteAllText(fileName, stringBuilder.ToString());
             }
-        }
-
-        public static string GetFileNameFromUrl(string url)
-        {
-            var decoded = HttpUtility.UrlDecode(url);
-
-            if (decoded.IndexOf("?") is { } queryIndex && queryIndex != -1)
-            {
-                decoded = decoded.Substring(0, queryIndex);
-            }
-
-            return Path.GetFileName(decoded);
-        }
-
-        public static string BeautifyJson(string str)
-        {
-            var obj = JsonConvert.DeserializeObject(str);
-            string json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-            return json;
         }
     }
 }

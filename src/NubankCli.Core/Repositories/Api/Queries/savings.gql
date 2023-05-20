@@ -3,61 +3,52 @@
     savingsAccount {
       id feed,
       {
-        id __typename,
-        title detail,
-        postDate ...,        
-        on BarcodePaymentFailureEvent,
+        id 
+        __typename
+        title 
+        detail
+        postDate        
+        ... on BarcodePaymentFailureEvent,
         {
           amount
-        },
-        ... on,
-        TransferInEvent {
+        }
+        ... on TransferInEvent {
           amount originAccount,
           {
             name
           }
-        },
-        ... on,
-        TransferOutEvent {
+        }
+        ... on TransferOutEvent {
           amount destinationAccount,
           {
             name
           }
-        },
-        ... on,
-        TransferOutReversalEvent {
-          amount
-        },
-        ... on,
-        BillPaymentEvent {
-          amount
-        },
-        ... on,
-        DebitPurchaseEvent {
-          amount
-        },
-        ... on,
-        BarcodePaymentEvent {
-          amount
-        },
-        ... on,
-        DebitWithdrawalFeeEvent {
-          amount
-        },
-        ... on,
-        DebitWithdrawalEvent {
+        }
+        ... on TransferOutReversalEvent {
           amount
         }
-        ... on,
-        LendingTransferOutEvent {
+        ... on BillPaymentEvent {
           amount
-        },
-        ... on,
-        LendingTransferInEvent {
+        }
+        ... on DebitPurchaseEvent {
           amount
-        },
-        ... on,
-        PhoneRechargeSuccessEvent  {
+        }
+        ... on BarcodePaymentEvent {
+          amount
+        }
+        ... on DebitWithdrawalFeeEvent {
+          amount
+        }
+        ... on DebitWithdrawalEvent {
+          amount
+        }
+        ... on LendingTransferOutEvent {
+          amount
+        }
+        ... on LendingTransferInEvent {
+          amount
+        }
+        ... on PhoneRechargeSuccessEvent  {
           amount
         }
       }
