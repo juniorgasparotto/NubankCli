@@ -1,3 +1,9 @@
+# Deprecated
+
+<div style="background:#ff4d4f;color:white;padding:10px 14px;border-radius:6px;font-weight:600;">
+⚠️ Projeto descontinuado: este repositório não está mais ativo devido às limitações impostas pelo Nubank, que impedem o uso de sua API.
+</div>
+
 # NubankCli
 
 NubankCli é um aplicativo de console que importa as transações do cartão de crédito e da NuConta em forma de arquivos JSONs segregados por usuário. Além disso, ele prove alguns comandos simples que ajudam a visualizar/sumarizar as transações importadas via linha de comando.
